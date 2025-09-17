@@ -99,3 +99,50 @@ def train(loader, model, criterion, optimizer, device):
         total += loss.item() * bs # 손실 합계 갱신
         n += bs # 샘플 수 갱신
     return total / max(n, 1) # 평균 손실 반환
+
+def train_randomSearch(loader, model, criterion, optimizer, device, grad_clip=None):
+    """
+    Function: train
+        - 모델을 한 epoch 동안 학습
+    Parameters:
+        - loader: DataLoader
+            - 학습 데이터 로더
+        - model: 학습할 모델
+        - criterion: 손실 함수
+        - optimizer: 옵티마이저
+        - device: torch.device
+    Returns:
+        - float
+            - 평균 학습 손실
+    """
+    model.train() # 모델 학습 모드로 전환
+    total, n = 0.0, 0 # 손실 합계와 샘플 수 초기화
+
+    # 배치 단위로 학습 
+    for batch in loader: 
+        xb, s_idx, meta, yb = _to_device(batch, device) # 배치를 장치에 맞게 변환
+
+        # 모델의 foward 함수에서 입력 인자 개수에 따라 다르게 호출
+        if hasattr(model, "forward") and model.forward.__code__.co_argcount >= 4:
+            # 4개 이상이면 s_idx, meta도 전달 (4개 이상: self, x, station_idx, meta)
+            yhat = model(xb, s_idx, meta)
+        else: # 4개 미만이면 s_idx, meta는 None 
+            yhat = model(xb)
+
+        # 타깃 차원 보정 (1D -> 2D)
+        if yb.dim() == 1 and yhat.dim() == 2 and yhat.size(1) == 1:
+            yb = yb.unsqueeze(-1)
+
+        loss = criterion(yhat, yb) # 손실 계산
+        optimizer.zero_grad(set_to_none=True) # 옵티마이저 기울기 초기화
+        loss.backward() # 역전파
+
+        # gradient clipping (너무 큰 기울기 방지)
+        if (grad_clip is not None) and (grad_clip > 0):
+            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
+        optimizer.step() # 파라미터 업데이트
+
+        bs = xb.size(0) # 배치 크기
+        total += loss.item() * bs # 손실 합계 갱신
+        n += bs # 샘플 수 갱신
+    return total / max(n, 1) # 평균 손실 반환

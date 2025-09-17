@@ -1,0 +1,24 @@
+[
+    {
+        "trial": 1,
+        "params": {
+            "d_model": 96,
+            "nhead": 8,
+            "num_ts_layers": 3,
+            "dim_feedforward": 512,
+            "dropout": 0.2,
+            "station_emb_dim": 8,
+            "pool": "last",
+            "loss": "Huber",
+            "lr": 0.001,
+            "weight_decay": 0.0,
+            "epochs": 20,
+            "patience": 15,
+            "grad_clip": 0.5,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.011913683898109942,
+        "epochs_used": 20,
+        "path": "results/random_search/Transformer/best_trial01.pth"
+    }
+]

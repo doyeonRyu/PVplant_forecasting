@@ -1,0 +1,21 @@
+[
+    {
+        "trial": 1,
+        "params": {
+            "hidden_size": 64,
+            "num_layers": 2,
+            "dropout": 0.3,
+            "station_emb_dim": 12,
+            "loss": "MSE",
+            "lr": 0.001,
+            "weight_decay": 0.0005,
+            "epochs": 100,
+            "patience": 15,
+            "grad_clip": 1.0,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.026702748013899852,
+        "epochs_used": 44,
+        "path": "results/random_search/LSTM/best_trial01.pth"
+    }
+]

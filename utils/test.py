@@ -37,40 +37,80 @@ def _to_device(batch, device):
 모델 평가 함수
 - valid 또는 test 데이터셋에 대한 손실 계산
 """
-@torch.no_grad()
 def evaluate(loader, model, criterion, device):
-    """
-    Function: evaluate
-        - valid 또는 test 데이터셋에 대한 손실 계산
-    Parameters:
-        - loader: DataLoader
-            - 평가할 데이터셋의 DataLoader
-        - model: 평가할 모델
-        - criterion: 손실 함수
-        - device: torch.device
-    Returns:
-        - float
-            - 전체 데이터셋에 대한 평균 손실
-    """
-    model.eval() # 모델 평가 모드로 전환
-    total, n = 0.0, 0 # 손실 합계 및 샘플 수 초기화
+    '''
+    함수 설명:
+        - valid/test DataLoader에 대해 전체 평균 손실과 station별 평균 손실을 계산함
+    입력값:
+        - loader: torch.utils.data.DataLoader, (xb, s_idx, meta, yb) 형태 배치를 제공
+        - model: torch.nn.Module, forward(x[, station_idx, meta]) 지원
+        - criterion: 손실 함수(일반적으로 reduction='mean')
+        - device: torch.device, 연산에 사용할 디바이스
+    출력값:
+        - (overall_loss: float, station_avg: dict[int, float])
+          overall_loss는 전체 평균 손실
+          station_avg는 station_id -> 평균 손실
+    '''
+    model.eval() # 모델을 평가 모드로 전환
+    total_sum = 0.0 # 전체 손실의 합(가중합)
+    total_cnt = 0 # 전체 샘플 수
 
-    for batch in loader: # 배치 단위로 반복
-        xb, s_idx, meta, yb = _to_device(batch, device)
-        if hasattr(model, "forward") and model.forward.__code__.co_argcount >= 4:
-            # 4개 이상이면 s_idx, meta도 전달 (4개 이상: self, x, station_idx, meta)
-            yhat = model(xb, s_idx, meta)
-        else: # 4개 미만이면 s_idx, meta는 None
-            yhat = model(xb)
-            
-        # 타깃 차원 보정 (1D -> 2D)
-        if yb.dim() == 1 and yhat.dim() == 2 and yhat.size(1) == 1: 
-            yb = yb.unsqueeze(-1)
-        
-        bs = xb.size(0) # 배치 크기 
-        total += criterion(yhat, yb).item() * bs # 배치 손실 합산
-        n += bs # 샘플 수 누적
-    return total / max(n, 1) # 평균 손실 반환
+    from collections import defaultdict # station별 합/개수 저장을 위해 defaultdict 사용
+    st_sum = defaultdict(float) # station별 손실 합
+    st_cnt = defaultdict(int) # station별 샘플 수
+
+    # 그래디언트 비활성화(평가 단계이므로 메모리/속도 이점)
+    with torch.no_grad():  # torch를 이미 임포트했다고 가정
+        for batch in loader:  # 배치 단위로 반복
+            xb, s_idx, meta, yb = _to_device(batch, device)  # 배치를 디바이스로 이동
+
+            # 모델 인자 수에 따라 station/meta 전달 여부 결정
+            if hasattr(model, "forward") and model.forward.__code__.co_argcount >= 4:
+                # forward(self, x, station_idx, meta) 형태
+                yhat = model(xb, s_idx, meta)  # station/meta까지 포함하여 예측
+            else:
+                # forward(self, x) 형태
+                yhat = model(xb)  # 입력 시계열만으로 예측
+
+            # 타깃 차원 보정: (N,) vs (N,1) 불일치 시 정렬
+            if yb.dim() == 1 and yhat.dim() == 2 and yhat.size(1) == 1:
+                yb = yb.unsqueeze(-1)  # 타깃을 (N,1)로 확장
+
+            bs = xb.size(0)  # 현재 배치 크기
+            # criterion이 보통 배치 평균을 반환하므로, * bs로 가중합을 만든다
+            batch_loss_mean = criterion(yhat, yb).item()  # 배치 평균 손실
+            total_sum += batch_loss_mean * bs # 전체 손실 합에 가중합 추가
+            total_cnt += bs # 전체 샘플 수 누적
+
+            # station별 손실: 배치 내 station 고유값별로 슬라이스하여 동일 방식으로 합산
+            # s_idx는 (N,) 또는 (N,1)일 수 있으므로 1D 텐서로 맞춘다
+            if s_idx.dim() > 1:
+                s_idx_flat = s_idx.view(-1) # (N,)로 평탄화
+            else:
+                s_idx_flat = s_idx # 이미 (N,)
+
+            unique_stations = s_idx_flat.unique() # 배치에 등장한 station ID들
+            for st in unique_stations: # 각 station별로 손실 계산
+                mask = (s_idx_flat == st) # 해당 station의 마스크 (N,)
+                idx = mask.nonzero(as_tuple=True)[0] # 해당 인덱스들
+                # 해당 station에 속한 샘플만 슬라이스
+                yhat_sub = yhat.index_select(0, idx)
+                yb_sub = yb.index_select(0, idx)
+                sub_cnt = yhat_sub.size(0) # 해당 station 샘플 수
+                # 동일하게 평균 손실을 구하고, * sub_cnt로 가중합을 만든다
+                st_loss_mean = criterion(yhat_sub, yb_sub).item()
+                st_sum[int(st.item())] += st_loss_mean * sub_cnt # station 손실 합
+                st_cnt[int(st.item())] += sub_cnt  # station 샘플 수
+
+    # 전체 평균 손실 계산(샘플 수로 나눔)
+    overall_loss = total_sum / max(total_cnt, 1)
+
+    # station별 평균 손실 계산
+    station_avg = {}
+    for k in st_sum.keys():
+        station_avg[k] = st_sum[k] / max(st_cnt[k], 1)
+
+    return overall_loss, station_avg
 
 """
 모델 평가 지표 계산 함수
