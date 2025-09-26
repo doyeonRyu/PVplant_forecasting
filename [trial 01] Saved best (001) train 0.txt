@@ -1,0 +1,922 @@
+[trial 01] Saved best: (001) train 0.105373 | valid 0.043178
+[trial 01] (001) train 0.105373 | valid 0.043178
+[trial 01] Saved best: (002) train 0.041345 | valid 0.032143
+[trial 01] (002) train 0.041345 | valid 0.032143
+[trial 01] Saved best: (003) train 0.035987 | valid 0.030351
+[trial 01] (003) train 0.035987 | valid 0.030351
+[trial 01] Saved best: (004) train 0.033121 | valid 0.026775
+[trial 01] (004) train 0.033121 | valid 0.026775
+[trial 01] (005) no improve (1/10)
+[trial 01] (005) train 0.031442 | valid 0.028570
+[trial 01] (006) no improve (2/10)
+[trial 01] (006) train 0.029958 | valid 0.027000
+[trial 01] Saved best: (007) train 0.028724 | valid 0.022847
+[trial 01] (007) train 0.028724 | valid 0.022847
+[trial 01] Saved best: (008) train 0.027937 | valid 0.022386
+[trial 01] (008) train 0.027937 | valid 0.022386
+[trial 01] Saved best: (009) train 0.027417 | valid 0.021992
+[trial 01] (009) train 0.027417 | valid 0.021992
+[trial 01] (010) no improve (1/10)
+[trial 01] (010) train 0.027079 | valid 0.022890
+[trial 01] Saved best: (011) train 0.026877 | valid 0.020378
+[trial 01] (011) train 0.026877 | valid 0.020378
+[trial 01] (012) no improve (1/10)
+[trial 01] (012) train 0.026479 | valid 0.020530
+[trial 01] (013) no improve (2/10)
+[trial 01] (013) train 0.026201 | valid 0.020384
+[trial 01] Saved best: (014) train 0.026184 | valid 0.019278
+[trial 01] (014) train 0.026184 | valid 0.019278
+[trial 01] (015) no improve (1/10)
+[trial 01] (015) train 0.026190 | valid 0.020203
+[trial 01] (016) no improve (2/10)
+[trial 01] (016) train 0.025887 | valid 0.023063
+[trial 01] (017) no improve (3/10)
+[trial 01] (017) train 0.025774 | valid 0.021689
+[trial 01] (018) no improve (4/10)
+[trial 01] (018) train 0.025901 | valid 0.020160
+[trial 01] (019) no improve (5/10)
+[trial 01] (019) train 0.025865 | valid 0.019463
+[trial 01] (020) no improve (6/10)
+[trial 01] (020) train 0.025629 | valid 0.020349
+[trial 01] (021) no improve (7/10)
+[trial 01] (021) train 0.025569 | valid 0.019496
+[trial 01] (022) no improve (8/10)
+[trial 01] (022) train 0.025381 | valid 0.019450
+[trial 01] Saved best: (023) train 0.025410 | valid 0.018276
+[trial 01] (023) train 0.025410 | valid 0.018276
+[trial 01] (024) no improve (1/10)
+[trial 01] (024) train 0.025350 | valid 0.018212
+[trial 01] (025) no improve (2/10)
+[trial 01] (025) train 0.025253 | valid 0.018425
+[trial 01] (026) no improve (3/10)
+[trial 01] (026) train 0.025173 | valid 0.019092
+[trial 01] (027) no improve (4/10)
+[trial 01] (027) train 0.025288 | valid 0.019083
+[trial 01] (028) no improve (5/10)
+[trial 01] (028) train 0.025170 | valid 0.019795
+[trial 01] (029) no improve (6/10)
+[trial 01] (029) train 0.025247 | valid 0.018888
+[trial 01] (030) no improve (7/10)
+[trial 01] (030) train 0.025030 | valid 0.018901
+[trial 01] (031) no improve (8/10)
+[trial 01] (031) train 0.025076 | valid 0.019636
+[trial 01] (032) no improve (9/10)
+[trial 01] (032) train 0.024781 | valid 0.019012
+[trial 01] (033) no improve (10/10)
+[trial 01] early stop at (33) | best valid 0.018276
+[trial 02] Saved best: (001) train 0.145916 | valid 0.065783
+[trial 02] (001) train 0.145916 | valid 0.065783
+[trial 02] Saved best: (002) train 0.067516 | valid 0.058121
+[trial 02] (002) train 0.067516 | valid 0.058121
+[trial 02] Saved best: (003) train 0.060397 | valid 0.047997
+[trial 02] (003) train 0.060397 | valid 0.047997
+[trial 02] Saved best: (004) train 0.057221 | valid 0.045877
+[trial 02] (004) train 0.057221 | valid 0.045877
+[trial 02] (005) no improve (1/20)
+[trial 02] (005) train 0.055115 | valid 0.046337
+[trial 02] Saved best: (006) train 0.053473 | valid 0.040701
+[trial 02] (006) train 0.053473 | valid 0.040701
+[trial 02] Saved best: (007) train 0.052736 | valid 0.038755
+[trial 02] (007) train 0.052736 | valid 0.038755
+[trial 02] (008) no improve (1/20)
+[trial 02] (008) train 0.051822 | valid 0.040172
+[trial 02] (009) no improve (2/20)
+[trial 02] (009) train 0.051631 | valid 0.041288
+[trial 02] Saved best: (010) train 0.050011 | valid 0.037301
+[trial 02] (010) train 0.050011 | valid 0.037301
+[trial 02] (011) no improve (1/20)
+[trial 02] (011) train 0.049838 | valid 0.039320
+[trial 02] (012) no improve (2/20)
+[trial 02] (012) train 0.049581 | valid 0.039479
+[trial 02] (013) no improve (3/20)
+[trial 02] (013) train 0.049224 | valid 0.043036
+[trial 02] (014) no improve (4/20)
+[trial 02] (014) train 0.048773 | valid 0.038528
+[trial 02] (015) no improve (5/20)
+[trial 02] (015) train 0.048288 | valid 0.039459
+[trial 02] (016) no improve (6/20)
+[trial 02] (016) train 0.048595 | valid 0.039804
+[trial 02] (017) no improve (7/20)
+[trial 02] (017) train 0.048243 | valid 0.041554
+[trial 02] (018) no improve (8/20)
+[trial 02] (018) train 0.047841 | valid 0.039045
+[trial 02] Saved best: (019) train 0.047520 | valid 0.036985
+[trial 02] (019) train 0.047520 | valid 0.036985
+[trial 02] (020) no improve (1/20)
+[trial 02] (020) train 0.047327 | valid 0.038714
+[trial 02] (021) no improve (2/20)
+[trial 02] (021) train 0.047340 | valid 0.037781
+[trial 02] (022) no improve (3/20)
+[trial 02] (022) train 0.046612 | valid 0.039085
+[trial 02] (023) no improve (4/20)
+[trial 02] (023) train 0.046559 | valid 0.036895
+[trial 02] (024) no improve (5/20)
+[trial 02] (024) train 0.046357 | valid 0.036970
+[trial 02] (025) no improve (6/20)
+[trial 02] (025) train 0.046095 | valid 0.036920
+[trial 02] (026) no improve (7/20)
+[trial 02] (026) train 0.046046 | valid 0.041525
+[trial 02] (027) no improve (8/20)
+[trial 02] (027) train 0.046172 | valid 0.039029
+[trial 02] (028) no improve (9/20)
+[trial 02] (028) train 0.045769 | valid 0.037531
+[trial 02] Saved best: (029) train 0.045440 | valid 0.036578
+[trial 02] (029) train 0.045440 | valid 0.036578
+[trial 02] (030) no improve (1/20)
+[trial 02] (030) train 0.045717 | valid 0.038137
+[trial 02] (031) no improve (2/20)
+[trial 02] (031) train 0.045383 | valid 0.038310
+[trial 02] Saved best: (032) train 0.045085 | valid 0.035740
+[trial 02] (032) train 0.045085 | valid 0.035740
+[trial 02] (033) no improve (1/20)
+[trial 02] (033) train 0.045219 | valid 0.036784
+[trial 02] (034) no improve (2/20)
+[trial 02] (034) train 0.044795 | valid 0.041451
+[trial 02] (035) no improve (3/20)
+[trial 02] (035) train 0.045178 | valid 0.037088
+[trial 02] (036) no improve (4/20)
+[trial 02] (036) train 0.044583 | valid 0.037173
+[trial 02] (037) no improve (5/20)
+[trial 02] (037) train 0.044464 | valid 0.037307
+[trial 02] (038) no improve (6/20)
+[trial 02] (038) train 0.044433 | valid 0.038916
+[trial 02] (039) no improve (7/20)
+[trial 02] (039) train 0.044194 | valid 0.036613
+[trial 02] (040) no improve (8/20)
+[trial 02] (040) train 0.044407 | valid 0.037220
+[trial 02] (041) no improve (9/20)
+[trial 02] (041) train 0.044193 | valid 0.035986
+[trial 02] (042) no improve (10/20)
+[trial 02] (042) train 0.043820 | valid 0.038556
+[trial 02] (043) no improve (11/20)
+[trial 02] (043) train 0.043776 | valid 0.037588
+[trial 02] (044) no improve (12/20)
+[trial 02] (044) train 0.043616 | valid 0.038217
+[trial 02] (045) no improve (13/20)
+[trial 02] (045) train 0.043609 | valid 0.036311
+[trial 02] (046) no improve (14/20)
+[trial 02] (046) train 0.043695 | valid 0.038844
+[trial 02] (047) no improve (15/20)
+[trial 02] (047) train 0.043693 | valid 0.038904
+[trial 02] (048) no improve (16/20)
+[trial 02] (048) train 0.043144 | valid 0.036948
+[trial 02] (049) no improve (17/20)
+[trial 02] (049) train 0.043375 | valid 0.038542
+[trial 02] (050) no improve (18/20)
+[trial 02] (050) train 0.043472 | valid 0.037736
+[trial 02] (051) no improve (19/20)
+[trial 02] (051) train 0.042909 | valid 0.037440
+[trial 02] (052) no improve (20/20)
+[trial 02] early stop at (52) | best valid 0.035740
+[trial 03] Saved best: (001) train 0.075875 | valid 0.038286
+[trial 03] (001) train 0.075875 | valid 0.038286
+[trial 03] Saved best: (002) train 0.033871 | valid 0.030967
+[trial 03] (002) train 0.033871 | valid 0.030967
+[trial 03] Saved best: (003) train 0.029687 | valid 0.030413
+[trial 03] (003) train 0.029687 | valid 0.030413
+[trial 03] Saved best: (004) train 0.027170 | valid 0.028093
+[trial 03] (004) train 0.027170 | valid 0.028093
+[trial 03] Saved best: (005) train 0.025520 | valid 0.024099
+[trial 03] (005) train 0.025520 | valid 0.024099
+[trial 03] (006) no improve (1/10)
+[trial 03] (006) train 0.024802 | valid 0.024360
+[trial 03] Saved best: (007) train 0.024304 | valid 0.022610
+[trial 03] (007) train 0.024304 | valid 0.022610
+[trial 03] Saved best: (008) train 0.024080 | valid 0.021207
+[trial 03] (008) train 0.024080 | valid 0.021207
+[trial 03] (009) no improve (1/10)
+[trial 03] (009) train 0.023806 | valid 0.021994
+[trial 03] (010) no improve (2/10)
+[trial 03] (010) train 0.023512 | valid 0.023020
+[trial 03] Saved best: (011) train 0.023334 | valid 0.019450
+[trial 03] (011) train 0.023334 | valid 0.019450
+[trial 03] Saved best: (012) train 0.023346 | valid 0.019302
+[trial 03] (012) train 0.023346 | valid 0.019302
+[trial 03] (013) no improve (1/10)
+[trial 03] (013) train 0.023113 | valid 0.019643
+[trial 03] (014) no improve (2/10)
+[trial 03] (014) train 0.023014 | valid 0.020017
+[trial 03] (015) no improve (3/10)
+[trial 03] (015) train 0.022981 | valid 0.020948
+[trial 03] (016) no improve (4/10)
+[trial 03] (016) train 0.022902 | valid 0.019623
+[trial 03] (017) no improve (5/10)
+[trial 03] (017) train 0.022743 | valid 0.020556
+[trial 03] Saved best: (018) train 0.022661 | valid 0.018378
+[trial 03] (018) train 0.022661 | valid 0.018378
+[trial 03] (019) no improve (1/10)
+[trial 03] (019) train 0.022681 | valid 0.020991
+[trial 03] (020) no improve (2/10)
+[trial 03] (020) train 0.022616 | valid 0.019363
+[trial 03] (021) no improve (3/10)
+[trial 03] (021) train 0.022715 | valid 0.019018
+[trial 03] (022) no improve (4/10)
+[trial 03] (022) train 0.022600 | valid 0.019928
+[trial 03] (023) no improve (5/10)
+[trial 03] (023) train 0.022642 | valid 0.024059
+[trial 03] (024) no improve (6/10)
+[trial 03] (024) train 0.022594 | valid 0.022302
+[trial 03] (025) no improve (7/10)
+[trial 03] (025) train 0.022313 | valid 0.019866
+[trial 03] (026) no improve (8/10)
+[trial 03] (026) train 0.022377 | valid 0.023391
+[trial 03] (027) no improve (9/10)
+[trial 03] (027) train 0.022485 | valid 0.020275
+[trial 03] (028) no improve (10/10)
+[trial 03] early stop at (28) | best valid 0.018378
+[trial 04] Saved best: (001) train 0.071923 | valid 0.035454
+[trial 04] (001) train 0.071923 | valid 0.035454
+[trial 04] Saved best: (002) train 0.029885 | valid 0.031972
+[trial 04] (002) train 0.029885 | valid 0.031972
+[trial 04] Saved best: (003) train 0.026378 | valid 0.024468
+[trial 04] (003) train 0.026378 | valid 0.024468
+[trial 04] Saved best: (004) train 0.025397 | valid 0.024175
+[trial 04] (004) train 0.025397 | valid 0.024175
+[trial 04] Saved best: (005) train 0.024162 | valid 0.021911
+[trial 04] (005) train 0.024162 | valid 0.021911
+[trial 04] Saved best: (006) train 0.023919 | valid 0.021371
+[trial 04] (006) train 0.023919 | valid 0.021371
+[trial 04] Saved best: (007) train 0.023578 | valid 0.021218
+[trial 04] (007) train 0.023578 | valid 0.021218
+[trial 04] Saved best: (008) train 0.023263 | valid 0.020576
+[trial 04] (008) train 0.023263 | valid 0.020576
+[trial 04] Saved best: (009) train 0.023011 | valid 0.018718
+[trial 04] (009) train 0.023011 | valid 0.018718
+[trial 04] (010) no improve (1/10)
+[trial 04] (010) train 0.022822 | valid 0.018994
+[trial 04] (011) no improve (2/10)
+[trial 04] (011) train 0.022722 | valid 0.019704
+[trial 04] (012) no improve (3/10)
+[trial 04] (012) train 0.022668 | valid 0.018773
+[trial 04] (013) no improve (4/10)
+[trial 04] (013) train 0.022724 | valid 0.020625
+[trial 04] (014) no improve (5/10)
+[trial 04] (014) train 0.022476 | valid 0.023355
+[trial 04] (015) no improve (6/10)
+[trial 04] (015) train 0.022536 | valid 0.021302
+[trial 04] (016) no improve (7/10)
+[trial 04] (016) train 0.022292 | valid 0.020183
+[trial 04] (017) no improve (8/10)
+[trial 04] (017) train 0.022332 | valid 0.021672
+[trial 04] (018) no improve (9/10)
+[trial 04] (018) train 0.022274 | valid 0.021740
+[trial 04] (019) no improve (10/10)
+[trial 04] early stop at (19) | best valid 0.018718
+[trial 05] Saved best: (001) train 0.084339 | valid 0.035142
+[trial 05] (001) train 0.084339 | valid 0.035142
+[trial 05] Saved best: (002) train 0.030623 | valid 0.030849
+[trial 05] (002) train 0.030623 | valid 0.030849
+[trial 05] Saved best: (003) train 0.026160 | valid 0.029336
+[trial 05] (003) train 0.026160 | valid 0.029336
+[trial 05] Saved best: (004) train 0.023989 | valid 0.026330
+[trial 05] (004) train 0.023989 | valid 0.026330
+[trial 05] Saved best: (005) train 0.022321 | valid 0.023080
+[trial 05] (005) train 0.022321 | valid 0.023080
+[trial 05] (006) no improve (1/10)
+[trial 05] (006) train 0.021014 | valid 0.023681
+[trial 05] Saved best: (007) train 0.020361 | valid 0.021059
+[trial 05] (007) train 0.020361 | valid 0.021059
+[trial 05] (008) no improve (1/10)
+[trial 05] (008) train 0.019575 | valid 0.022713
+[trial 05] Saved best: (009) train 0.019118 | valid 0.020722
+[trial 05] (009) train 0.019118 | valid 0.020722
+[trial 05] (010) no improve (1/10)
+[trial 05] (010) train 0.018903 | valid 0.021009
+[trial 05] (011) no improve (2/10)
+[trial 05] (011) train 0.018477 | valid 0.021758
+[trial 05] (012) no improve (3/10)
+[trial 05] (012) train 0.018243 | valid 0.021105
+[trial 05] Saved best: (013) train 0.018004 | valid 0.019427
+[trial 05] (013) train 0.018004 | valid 0.019427
+[trial 05] (014) no improve (1/10)
+[trial 05] (014) train 0.017802 | valid 0.021066
+[trial 05] (015) no improve (2/10)
+[trial 05] (015) train 0.017675 | valid 0.020421
+[trial 05] (016) no improve (3/10)
+[trial 05] (016) train 0.017513 | valid 0.019731
+[trial 05] Saved best: (017) train 0.017273 | valid 0.019224
+[trial 05] (017) train 0.017273 | valid 0.019224
+[trial 05] Saved best: (018) train 0.017138 | valid 0.018669
+[trial 05] (018) train 0.017138 | valid 0.018669
+[trial 05] (019) no improve (1/10)
+[trial 05] (019) train 0.017037 | valid 0.019103
+[trial 05] (020) no improve (2/10)
+[trial 05] (020) train 0.016927 | valid 0.018768
+[trial 05] (021) no improve (3/10)
+[trial 05] (021) train 0.016797 | valid 0.018950
+[trial 05] Saved best: (022) train 0.016740 | valid 0.018543
+[trial 05] (022) train 0.016740 | valid 0.018543
+[trial 05] (023) no improve (1/10)
+[trial 05] (023) train 0.016632 | valid 0.018821
+[trial 05] (024) no improve (2/10)
+[trial 05] (024) train 0.016560 | valid 0.019642
+[trial 05] (025) no improve (3/10)
+[trial 05] (025) train 0.016480 | valid 0.019417
+[trial 05] (026) no improve (4/10)
+[trial 05] (026) train 0.016426 | valid 0.018675
+[trial 05] (027) no improve (5/10)
+[trial 05] (027) train 0.016281 | valid 0.018573
+[trial 05] Saved best: (028) train 0.016235 | valid 0.018339
+[trial 05] (028) train 0.016235 | valid 0.018339
+[trial 05] (029) no improve (1/10)
+[trial 05] (029) train 0.016284 | valid 0.018453
+[trial 05] Saved best: (030) train 0.016329 | valid 0.018180
+[trial 05] (030) train 0.016329 | valid 0.018180
+[trial 05] (031) no improve (1/10)
+[trial 05] (031) train 0.016101 | valid 0.018883
+[trial 05] (032) no improve (2/10)
+[trial 05] (032) train 0.016061 | valid 0.018500
+[trial 05] (033) no improve (3/10)
+[trial 05] (033) train 0.016008 | valid 0.018748
+[trial 05] (034) no improve (4/10)
+[trial 05] (034) train 0.015904 | valid 0.019063
+[trial 05] (035) no improve (5/10)
+[trial 05] (035) train 0.015919 | valid 0.018798
+[trial 05] (036) no improve (6/10)
+[trial 05] (036) train 0.015844 | valid 0.018289
+[trial 05] (037) no improve (7/10)
+[trial 05] (037) train 0.015809 | valid 0.018626
+[trial 05] (038) no improve (8/10)
+[trial 05] (038) train 0.015719 | valid 0.019071
+[trial 05] (039) no improve (9/10)
+[trial 05] (039) train 0.015631 | valid 0.019191
+[trial 05] Saved best: (040) train 0.015618 | valid 0.018058
+[trial 05] (040) train 0.015618 | valid 0.018058
+[trial 05] (041) no improve (1/10)
+[trial 05] (041) train 0.015639 | valid 0.019779
+[trial 05] (042) no improve (2/10)
+[trial 05] (042) train 0.015477 | valid 0.018424
+[trial 05] (043) no improve (3/10)
+[trial 05] (043) train 0.015387 | valid 0.019258
+[trial 05] (044) no improve (4/10)
+[trial 05] (044) train 0.015356 | valid 0.018890
+[trial 05] (045) no improve (5/10)
+[trial 05] (045) train 0.015256 | valid 0.018635
+[trial 05] (046) no improve (6/10)
+[trial 05] (046) train 0.015170 | valid 0.018771
+[trial 05] (047) no improve (7/10)
+[trial 05] (047) train 0.015036 | valid 0.019488
+[trial 05] (048) no improve (8/10)
+[trial 05] (048) train 0.015060 | valid 0.018606
+[trial 05] (049) no improve (9/10)
+[trial 05] (049) train 0.015073 | valid 0.019867
+[trial 05] (050) no improve (10/10)
+[trial 05] early stop at (50) | best valid 0.018058
+[trial 06] Saved best: (001) train 0.124989 | valid 0.049717
+[trial 06] (001) train 0.124989 | valid 0.049717
+[trial 06] Saved best: (002) train 0.043314 | valid 0.045407
+[trial 06] (002) train 0.043314 | valid 0.045407
+[trial 06] (003) no improve (1/10)
+[trial 06] (003) train 0.040216 | valid 0.045731
+[trial 06] Saved best: (004) train 0.039016 | valid 0.041680
+[trial 06] (004) train 0.039016 | valid 0.041680
+[trial 06] (005) no improve (1/10)
+[trial 06] (005) train 0.037899 | valid 0.050113
+[trial 06] (006) no improve (2/10)
+[trial 06] (006) train 0.037364 | valid 0.043262
+[trial 06] Saved best: (007) train 0.036914 | valid 0.041481
+[trial 06] (007) train 0.036914 | valid 0.041481
+[trial 06] Saved best: (008) train 0.036432 | valid 0.041255
+[trial 06] (008) train 0.036432 | valid 0.041255
+[trial 06] Saved best: (009) train 0.036111 | valid 0.040863
+[trial 06] (009) train 0.036111 | valid 0.040863
+[trial 06] (010) no improve (1/10)
+[trial 06] (010) train 0.035677 | valid 0.041653
+[trial 06] Saved best: (011) train 0.035464 | valid 0.039356
+[trial 06] (011) train 0.035464 | valid 0.039356
+[trial 06] (012) no improve (1/10)
+[trial 06] (012) train 0.035175 | valid 0.041972
+[trial 06] (013) no improve (2/10)
+[trial 06] (013) train 0.034769 | valid 0.040148
+[trial 06] (014) no improve (3/10)
+[trial 06] (014) train 0.034882 | valid 0.044416
+[trial 06] (015) no improve (4/10)
+[trial 06] (015) train 0.034788 | valid 0.041157
+[trial 06] (016) no improve (5/10)
+[trial 06] (016) train 0.034722 | valid 0.041016
+[trial 06] (017) no improve (6/10)
+[trial 06] (017) train 0.034940 | valid 0.042472
+[trial 06] (018) no improve (7/10)
+[trial 06] (018) train 0.034568 | valid 0.040464
+[trial 06] (019) no improve (8/10)
+[trial 06] (019) train 0.034803 | valid 0.040674
+[trial 06] (020) no improve (9/10)
+[trial 06] (020) train 0.035400 | valid 0.041117
+[trial 06] (021) no improve (10/10)
+[trial 06] early stop at (21) | best valid 0.039356
+[trial 07] Saved best: (001) train 0.096939 | valid 0.040297
+[trial 07] (001) train 0.096939 | valid 0.040297
+[trial 07] Saved best: (002) train 0.038219 | valid 0.035386
+[trial 07] (002) train 0.038219 | valid 0.035386
+[trial 07] Saved best: (003) train 0.032962 | valid 0.031813
+[trial 07] (003) train 0.032962 | valid 0.031813
+[trial 07] Saved best: (004) train 0.029923 | valid 0.026897
+[trial 07] (004) train 0.029923 | valid 0.026897
+[trial 07] (005) no improve (1/15)
+[trial 07] (005) train 0.028211 | valid 0.027894
+[trial 07] (006) no improve (2/15)
+[trial 07] (006) train 0.027007 | valid 0.030787
+[trial 07] Saved best: (007) train 0.026152 | valid 0.023745
+[trial 07] (007) train 0.026152 | valid 0.023745
+[trial 07] (008) no improve (1/15)
+[trial 07] (008) train 0.025611 | valid 0.026463
+[trial 07] (009) no improve (2/15)
+[trial 07] (009) train 0.025030 | valid 0.025813
+[trial 07] Saved best: (010) train 0.024733 | valid 0.022677
+[trial 07] (010) train 0.024733 | valid 0.022677
+[trial 07] (011) no improve (1/15)
+[trial 07] (011) train 0.024420 | valid 0.023284
+[trial 07] Saved best: (012) train 0.024363 | valid 0.022492
+[trial 07] (012) train 0.024363 | valid 0.022492
+[trial 07] (013) no improve (1/15)
+[trial 07] (013) train 0.023861 | valid 0.025115
+[trial 07] (014) no improve (2/15)
+[trial 07] (014) train 0.023913 | valid 0.023591
+[trial 07] (015) no improve (3/15)
+[trial 07] (015) train 0.023684 | valid 0.023063
+[trial 07] Saved best: (016) train 0.023538 | valid 0.020016
+[trial 07] (016) train 0.023538 | valid 0.020016
+[trial 07] (017) no improve (1/15)
+[trial 07] (017) train 0.023497 | valid 0.021514
+[trial 07] (018) no improve (2/15)
+[trial 07] (018) train 0.023427 | valid 0.021234
+[trial 07] (019) no improve (3/15)
+[trial 07] (019) train 0.023266 | valid 0.020993
+[trial 07] (020) no improve (4/15)
+[trial 07] (020) train 0.023119 | valid 0.020753
+[trial 07] (021) no improve (5/15)
+[trial 07] (021) train 0.023264 | valid 0.022173
+[trial 07] (022) no improve (6/15)
+[trial 07] (022) train 0.023144 | valid 0.020944
+[trial 07] (023) no improve (7/15)
+[trial 07] (023) train 0.022878 | valid 0.022406
+[trial 07] (024) no improve (8/15)
+[trial 07] (024) train 0.022908 | valid 0.022034
+[trial 07] (025) no improve (9/15)
+[trial 07] (025) train 0.022803 | valid 0.023871
+[trial 07] (026) no improve (10/15)
+[trial 07] (026) train 0.022858 | valid 0.021427
+[trial 07] (027) no improve (11/15)
+[trial 07] (027) train 0.022769 | valid 0.022797
+[trial 07] (028) no improve (12/15)
+[trial 07] (028) train 0.022586 | valid 0.020614
+[trial 07] (029) no improve (13/15)
+[trial 07] (029) train 0.022565 | valid 0.022095
+[trial 07] (030) no improve (14/15)
+[trial 07] (030) train 0.022621 | valid 0.024057
+[trial 07] (031) no improve (15/15)
+[trial 07] early stop at (31) | best valid 0.020016
+[trial 08] Saved best: (001) train 0.182802 | valid 0.077431
+[trial 08] (001) train 0.182802 | valid 0.077431
+[trial 08] Saved best: (002) train 0.075488 | valid 0.070104
+[trial 08] (002) train 0.075488 | valid 0.070104
+[trial 08] Saved best: (003) train 0.064085 | valid 0.063932
+[trial 08] (003) train 0.064085 | valid 0.063932
+[trial 08] Saved best: (004) train 0.057645 | valid 0.053393
+[trial 08] (004) train 0.057645 | valid 0.053393
+[trial 08] Saved best: (005) train 0.053867 | valid 0.047620
+[trial 08] (005) train 0.053867 | valid 0.047620
+[trial 08] Saved best: (006) train 0.051431 | valid 0.047461
+[trial 08] (006) train 0.051431 | valid 0.047461
+[trial 08] Saved best: (007) train 0.050299 | valid 0.046432
+[trial 08] (007) train 0.050299 | valid 0.046432
+[trial 08] (008) no improve (1/20)
+[trial 08] (008) train 0.049518 | valid 0.048306
+[trial 08] Saved best: (009) train 0.048209 | valid 0.044863
+[trial 08] (009) train 0.048209 | valid 0.044863
+[trial 08] Saved best: (010) train 0.047073 | valid 0.043471
+[trial 08] (010) train 0.047073 | valid 0.043471
+[trial 08] Saved best: (011) train 0.046627 | valid 0.042645
+[trial 08] (011) train 0.046627 | valid 0.042645
+[trial 08] Saved best: (012) train 0.046354 | valid 0.042329
+[trial 08] (012) train 0.046354 | valid 0.042329
+[trial 08] (013) no improve (1/20)
+[trial 08] (013) train 0.045373 | valid 0.042236
+[trial 08] (014) no improve (2/20)
+[trial 08] (014) train 0.044689 | valid 0.043060
+[trial 08] (015) no improve (3/20)
+[trial 08] (015) train 0.044670 | valid 0.043713
+[trial 08] Saved best: (016) train 0.044053 | valid 0.040623
+[trial 08] (016) train 0.044053 | valid 0.040623
+[trial 08] (017) no improve (1/20)
+[trial 08] (017) train 0.043555 | valid 0.040884
+[trial 08] Saved best: (018) train 0.043497 | valid 0.040439
+[trial 08] (018) train 0.043497 | valid 0.040439
+[trial 08] Saved best: (019) train 0.042996 | valid 0.039662
+[trial 08] (019) train 0.042996 | valid 0.039662
+[trial 08] (020) no improve (1/20)
+[trial 08] (020) train 0.042761 | valid 0.040201
+[trial 08] (021) no improve (2/20)
+[trial 08] (021) train 0.042803 | valid 0.041004
+[trial 08] Saved best: (022) train 0.042202 | valid 0.039534
+[trial 08] (022) train 0.042202 | valid 0.039534
+[trial 08] (023) no improve (1/20)
+[trial 08] (023) train 0.042037 | valid 0.041865
+[trial 08] (024) no improve (2/20)
+[trial 08] (024) train 0.041843 | valid 0.040804
+[trial 08] (025) no improve (3/20)
+[trial 08] (025) train 0.041774 | valid 0.041094
+[trial 08] Saved best: (026) train 0.041587 | valid 0.038072
+[trial 08] (026) train 0.041587 | valid 0.038072
+[trial 08] (027) no improve (1/20)
+[trial 08] (027) train 0.041563 | valid 0.039553
+[trial 08] (028) no improve (2/20)
+[trial 08] (028) train 0.041001 | valid 0.038219
+[trial 08] (029) no improve (3/20)
+[trial 08] (029) train 0.041131 | valid 0.038765
+[trial 08] (030) no improve (4/20)
+[trial 08] (030) train 0.040880 | valid 0.038856
+[trial 08] (031) no improve (5/20)
+[trial 08] (031) train 0.040537 | valid 0.038615
+[trial 08] (032) no improve (6/20)
+[trial 08] (032) train 0.040190 | valid 0.038347
+[trial 08] Saved best: (033) train 0.040451 | valid 0.037688
+[trial 08] (033) train 0.040451 | valid 0.037688
+[trial 08] Saved best: (034) train 0.040319 | valid 0.037027
+[trial 08] (034) train 0.040319 | valid 0.037027
+[trial 08] (035) no improve (1/20)
+[trial 08] (035) train 0.039907 | valid 0.037003
+[trial 08] (036) no improve (2/20)
+[trial 08] (036) train 0.040169 | valid 0.036968
+[trial 08] Saved best: (037) train 0.039665 | valid 0.036837
+[trial 08] (037) train 0.039665 | valid 0.036837
+[trial 08] (038) no improve (1/20)
+[trial 08] (038) train 0.039768 | valid 0.037692
+[trial 08] (039) no improve (2/20)
+[trial 08] (039) train 0.039580 | valid 0.036960
+[trial 08] (040) no improve (3/20)
+[trial 08] (040) train 0.039515 | valid 0.038925
+[trial 08] (041) no improve (4/20)
+[trial 08] (041) train 0.039190 | valid 0.036806
+[trial 08] (042) no improve (5/20)
+[trial 08] (042) train 0.039181 | valid 0.037626
+[trial 08] (043) no improve (6/20)
+[trial 08] (043) train 0.038881 | valid 0.037062
+[trial 08] (044) no improve (7/20)
+[trial 08] (044) train 0.038865 | valid 0.037898
+[trial 08] (045) no improve (8/20)
+[trial 08] (045) train 0.038746 | valid 0.036846
+[trial 08] (046) no improve (9/20)
+[trial 08] (046) train 0.038528 | valid 0.037148
+[trial 08] Saved best: (047) train 0.038802 | valid 0.036675
+[trial 08] (047) train 0.038802 | valid 0.036675
+[trial 08] Saved best: (048) train 0.038501 | valid 0.036220
+[trial 08] (048) train 0.038501 | valid 0.036220
+[trial 08] (049) no improve (1/20)
+[trial 08] (049) train 0.038177 | valid 0.036346
+[trial 08] (050) no improve (2/20)
+[trial 08] (050) train 0.038262 | valid 0.038781
+[trial 08] Saved best: (051) train 0.038120 | valid 0.035628
+[trial 08] (051) train 0.038120 | valid 0.035628
+[trial 08] (052) no improve (1/20)
+[trial 08] (052) train 0.038211 | valid 0.036997
+[trial 08] (053) no improve (2/20)
+[trial 08] (053) train 0.037735 | valid 0.036162
+[trial 08] (054) no improve (3/20)
+[trial 08] (054) train 0.037667 | valid 0.037272
+[trial 08] (055) no improve (4/20)
+[trial 08] (055) train 0.037612 | valid 0.037768
+[trial 08] (056) no improve (5/20)
+[trial 08] (056) train 0.037248 | valid 0.039000
+[trial 08] (057) no improve (6/20)
+[trial 08] (057) train 0.037718 | valid 0.037862
+[trial 08] (058) no improve (7/20)
+[trial 08] (058) train 0.037283 | valid 0.037520
+[trial 08] (059) no improve (8/20)
+[trial 08] (059) train 0.037102 | valid 0.036234
+[trial 08] (060) no improve (9/20)
+[trial 08] (060) train 0.037335 | valid 0.036272
+[trial 08] (061) no improve (10/20)
+[trial 08] (061) train 0.037125 | valid 0.037202
+[trial 08] (062) no improve (11/20)
+[trial 08] (062) train 0.037210 | valid 0.038675
+[trial 08] (063) no improve (12/20)
+[trial 08] (063) train 0.036856 | valid 0.037155
+[trial 08] (064) no improve (13/20)
+[trial 08] (064) train 0.036929 | valid 0.036727
+[trial 08] (065) no improve (14/20)
+[trial 08] (065) train 0.036747 | valid 0.041070
+[trial 08] (066) no improve (15/20)
+[trial 08] (066) train 0.036772 | valid 0.038101
+[trial 08] (067) no improve (16/20)
+[trial 08] (067) train 0.036595 | valid 0.038482
+[trial 08] (068) no improve (17/20)
+[trial 08] (068) train 0.036636 | valid 0.036484
+[trial 08] (069) no improve (18/20)
+[trial 08] (069) train 0.036424 | valid 0.038199
+[trial 08] (070) no improve (19/20)
+[trial 08] (070) train 0.036352 | valid 0.039237
+[trial 08] (071) no improve (20/20)
+[trial 08] early stop at (71) | best valid 0.035628
+[trial 09] Saved best: (001) train 0.126764 | valid 0.065271
+[trial 09] (001) train 0.126764 | valid 0.065271
+[trial 09] Saved best: (002) train 0.054979 | valid 0.053931
+[trial 09] (002) train 0.054979 | valid 0.053931
+[trial 09] (003) no improve (1/20)
+[trial 09] (003) train 0.047018 | valid 0.058156
+[trial 09] Saved best: (004) train 0.043379 | valid 0.046882
+[trial 09] (004) train 0.043379 | valid 0.046882
+[trial 09] Saved best: (005) train 0.040370 | valid 0.042112
+[trial 09] (005) train 0.040370 | valid 0.042112
+[trial 09] (006) no improve (1/20)
+[trial 09] (006) train 0.039151 | valid 0.044368
+[trial 09] Saved best: (007) train 0.038355 | valid 0.040361
+[trial 09] (007) train 0.038355 | valid 0.040361
+[trial 09] Saved best: (008) train 0.037111 | valid 0.040119
+[trial 09] (008) train 0.037111 | valid 0.040119
+[trial 09] Saved best: (009) train 0.036976 | valid 0.038915
+[trial 09] (009) train 0.036976 | valid 0.038915
+[trial 09] (010) no improve (1/20)
+[trial 09] (010) train 0.036250 | valid 0.039630
+[trial 09] (011) no improve (2/20)
+[trial 09] (011) train 0.035827 | valid 0.039535
+[trial 09] Saved best: (012) train 0.035447 | valid 0.038774
+[trial 09] (012) train 0.035447 | valid 0.038774
+[trial 09] Saved best: (013) train 0.035066 | valid 0.036886
+[trial 09] (013) train 0.035066 | valid 0.036886
+[trial 09] (014) no improve (1/20)
+[trial 09] (014) train 0.034817 | valid 0.041637
+[trial 09] (015) no improve (2/20)
+[trial 09] (015) train 0.034553 | valid 0.038912
+[trial 09] (016) no improve (3/20)
+[trial 09] (016) train 0.034256 | valid 0.039437
+[trial 09] (017) no improve (4/20)
+[trial 09] (017) train 0.034267 | valid 0.038558
+[trial 09] Saved best: (018) train 0.033946 | valid 0.036453
+[trial 09] (018) train 0.033946 | valid 0.036453
+[trial 09] (019) no improve (1/20)
+[trial 09] (019) train 0.033754 | valid 0.039443
+[trial 09] (020) no improve (2/20)
+[trial 09] (020) train 0.033635 | valid 0.038632
+[trial 09] (021) no improve (3/20)
+[trial 09] (021) train 0.033200 | valid 0.037422
+[trial 09] (022) no improve (4/20)
+[trial 09] (022) train 0.032967 | valid 0.037160
+[trial 09] Saved best: (023) train 0.032762 | valid 0.036300
+[trial 09] (023) train 0.032762 | valid 0.036300
+[trial 09] (024) no improve (1/20)
+[trial 09] (024) train 0.032578 | valid 0.036473
+[trial 09] (025) no improve (2/20)
+[trial 09] (025) train 0.032736 | valid 0.036256
+[trial 09] (026) no improve (3/20)
+[trial 09] (026) train 0.032301 | valid 0.037125
+[trial 09] (027) no improve (4/20)
+[trial 09] (027) train 0.032253 | valid 0.036758
+[trial 09] (028) no improve (5/20)
+[trial 09] (028) train 0.032271 | valid 0.039594
+[trial 09] (029) no improve (6/20)
+[trial 09] (029) train 0.032013 | valid 0.038556
+[trial 09] (030) no improve (7/20)
+[trial 09] (030) train 0.032001 | valid 0.042061
+[trial 09] Saved best: (031) train 0.031875 | valid 0.036004
+[trial 09] (031) train 0.031875 | valid 0.036004
+[trial 09] (032) no improve (1/20)
+[trial 09] (032) train 0.031779 | valid 0.037009
+[trial 09] (033) no improve (2/20)
+[trial 09] (033) train 0.031486 | valid 0.036738
+[trial 09] (034) no improve (3/20)
+[trial 09] (034) train 0.031508 | valid 0.039252
+[trial 09] (035) no improve (4/20)
+[trial 09] (035) train 0.031254 | valid 0.038279
+[trial 09] Saved best: (036) train 0.030984 | valid 0.035202
+[trial 09] (036) train 0.030984 | valid 0.035202
+[trial 09] (037) no improve (1/20)
+[trial 09] (037) train 0.030996 | valid 0.039178
+[trial 09] (038) no improve (2/20)
+[trial 09] (038) train 0.030684 | valid 0.036928
+[trial 09] (039) no improve (3/20)
+[trial 09] (039) train 0.030674 | valid 0.035253
+[trial 09] (040) no improve (4/20)
+[trial 09] (040) train 0.030433 | valid 0.039381
+[trial 09] (041) no improve (5/20)
+[trial 09] (041) train 0.030212 | valid 0.037560
+[trial 09] (042) no improve (6/20)
+[trial 09] (042) train 0.030269 | valid 0.037940
+[trial 09] (043) no improve (7/20)
+[trial 09] (043) train 0.030238 | valid 0.038985
+[trial 09] (044) no improve (8/20)
+[trial 09] (044) train 0.029929 | valid 0.040143
+[trial 09] (045) no improve (9/20)
+[trial 09] (045) train 0.029843 | valid 0.039679
+[trial 09] (046) no improve (10/20)
+[trial 09] (046) train 0.029771 | valid 0.039241
+[trial 09] (047) no improve (11/20)
+[trial 09] (047) train 0.029527 | valid 0.038284
+[trial 09] (048) no improve (12/20)
+[trial 09] (048) train 0.029487 | valid 0.041568
+[trial 09] (049) no improve (13/20)
+[trial 09] (049) train 0.029387 | valid 0.041811
+[trial 09] (050) no improve (14/20)
+[trial 09] (050) train 0.029226 | valid 0.041185
+[trial 09] (051) no improve (15/20)
+[trial 09] (051) train 0.028965 | valid 0.039581
+[trial 09] (052) no improve (16/20)
+[trial 09] (052) train 0.028913 | valid 0.041099
+[trial 09] (053) no improve (17/20)
+[trial 09] (053) train 0.028672 | valid 0.039949
+[trial 09] (054) no improve (18/20)
+[trial 09] (054) train 0.028861 | valid 0.042794
+[trial 09] (055) no improve (19/20)
+[trial 09] (055) train 0.028447 | valid 0.041412
+[trial 09] (056) no improve (20/20)
+[trial 09] early stop at (56) | best valid 0.035202
+[trial 10] Saved best: (001) train 0.081778 | valid 0.034384
+[trial 10] (001) train 0.081778 | valid 0.034384
+[trial 10] Saved best: (002) train 0.029042 | valid 0.029967
+[trial 10] (002) train 0.029042 | valid 0.029967
+[trial 10] Saved best: (003) train 0.025668 | valid 0.027936
+[trial 10] (003) train 0.025668 | valid 0.027936
+[trial 10] Saved best: (004) train 0.023958 | valid 0.026745
+[trial 10] (004) train 0.023958 | valid 0.026745
+[trial 10] Saved best: (005) train 0.022641 | valid 0.025807
+[trial 10] (005) train 0.022641 | valid 0.025807
+[trial 10] Saved best: (006) train 0.021733 | valid 0.023739
+[trial 10] (006) train 0.021733 | valid 0.023739
+[trial 10] Saved best: (007) train 0.021152 | valid 0.023451
+[trial 10] (007) train 0.021152 | valid 0.023451
+[trial 10] Saved best: (008) train 0.020665 | valid 0.022154
+[trial 10] (008) train 0.020665 | valid 0.022154
+[trial 10] (009) no improve (1/20)
+[trial 10] (009) train 0.020262 | valid 0.023664
+[trial 10] Saved best: (010) train 0.019916 | valid 0.020968
+[trial 10] (010) train 0.019916 | valid 0.020968
+[trial 10] (011) no improve (1/20)
+[trial 10] (011) train 0.019784 | valid 0.022458
+[trial 10] (012) no improve (2/20)
+[trial 10] (012) train 0.019630 | valid 0.020961
+[trial 10] (013) no improve (3/20)
+[trial 10] (013) train 0.019566 | valid 0.022444
+[trial 10] Saved best: (014) train 0.019467 | valid 0.019864
+[trial 10] (014) train 0.019467 | valid 0.019864
+[trial 10] (015) no improve (1/20)
+[trial 10] (015) train 0.019185 | valid 0.021052
+[trial 10] Saved best: (016) train 0.019168 | valid 0.019317
+[trial 10] (016) train 0.019168 | valid 0.019317
+[trial 10] (017) no improve (1/20)
+[trial 10] (017) train 0.019026 | valid 0.019689
+[trial 10] (018) no improve (2/20)
+[trial 10] (018) train 0.019067 | valid 0.020039
+[trial 10] (019) no improve (3/20)
+[trial 10] (019) train 0.018936 | valid 0.019606
+[trial 10] (020) no improve (4/20)
+[trial 10] (020) train 0.018888 | valid 0.020357
+[trial 10] Saved best: (021) train 0.018782 | valid 0.019092
+[trial 10] (021) train 0.018782 | valid 0.019092
+[trial 10] (022) no improve (1/20)
+[trial 10] (022) train 0.018844 | valid 0.021296
+[trial 10] (023) no improve (2/20)
+[trial 10] (023) train 0.018680 | valid 0.018994
+[trial 10] (024) no improve (3/20)
+[trial 10] (024) train 0.018758 | valid 0.019486
+[trial 10] (025) no improve (4/20)
+[trial 10] (025) train 0.018564 | valid 0.019242
+[trial 10] (026) no improve (5/20)
+[trial 10] (026) train 0.018460 | valid 0.020104
+[trial 10] (027) no improve (6/20)
+[trial 10] (027) train 0.018521 | valid 0.019395
+[trial 10] (028) no improve (7/20)
+[trial 10] (028) train 0.018451 | valid 0.020151
+[trial 10] (029) no improve (8/20)
+[trial 10] (029) train 0.018495 | valid 0.019413
+[trial 10] (030) no improve (9/20)
+[trial 10] (030) train 0.018452 | valid 0.019738
+[trial 10] (031) no improve (10/20)
+[trial 10] (031) train 0.018342 | valid 0.019791
+[trial 10] (032) no improve (11/20)
+[trial 10] (032) train 0.018249 | valid 0.020454
+[trial 10] (033) no improve (12/20)
+[trial 10] (033) train 0.018292 | valid 0.019741
+[trial 10] (034) no improve (13/20)
+[trial 10] (034) train 0.018246 | valid 0.019442
+[trial 10] (035) no improve (14/20)
+[trial 10] (035) train 0.018276 | valid 0.019205
+[trial 10] Saved best: (036) train 0.018184 | valid 0.018981
+[trial 10] (036) train 0.018184 | valid 0.018981
+[trial 10] (037) no improve (1/20)
+[trial 10] (037) train 0.018159 | valid 0.019626
+[trial 10] (038) no improve (2/20)
+[trial 10] (038) train 0.018111 | valid 0.020991
+[trial 10] (039) no improve (3/20)
+[trial 10] (039) train 0.018111 | valid 0.019800
+[trial 10] (040) no improve (4/20)
+[trial 10] (040) train 0.018090 | valid 0.019828
+[trial 10] (041) no improve (5/20)
+[trial 10] (041) train 0.018011 | valid 0.020206
+[trial 10] (042) no improve (6/20)
+[trial 10] (042) train 0.018013 | valid 0.019528
+[trial 10] (043) no improve (7/20)
+[trial 10] (043) train 0.018002 | valid 0.019588
+[trial 10] (044) no improve (8/20)
+[trial 10] (044) train 0.017926 | valid 0.019595
+[trial 10] (045) no improve (9/20)
+[trial 10] (045) train 0.018035 | valid 0.019312
+[trial 10] (046) no improve (10/20)
+[trial 10] (046) train 0.018094 | valid 0.019439
+[trial 10] (047) no improve (11/20)
+[trial 10] (047) train 0.017880 | valid 0.018951
+[trial 10] (048) no improve (12/20)
+[trial 10] (048) train 0.017796 | valid 0.019083
+[trial 10] (049) no improve (13/20)
+[trial 10] (049) train 0.017925 | valid 0.019775
+[trial 10] (050) no improve (14/20)
+[trial 10] (050) train 0.017853 | valid 0.019934
+[trial 10] (051) no improve (15/20)
+[trial 10] (051) train 0.017759 | valid 0.019317
+[trial 10] (052) no improve (16/20)
+[trial 10] (052) train 0.017739 | valid 0.019075
+[trial 10] (053) no improve (17/20)
+[trial 10] (053) train 0.017855 | valid 0.020783
+[trial 10] (054) no improve (18/20)
+[trial 10] (054) train 0.017747 | valid 0.019664
+[trial 10] Saved best: (055) train 0.017723 | valid 0.018738
+[trial 10] (055) train 0.017723 | valid 0.018738
+[trial 10] (056) no improve (1/20)
+[trial 10] (056) train 0.017711 | valid 0.020199
+[trial 10] (057) no improve (2/20)
+[trial 10] (057) train 0.017594 | valid 0.020307
+[trial 10] (058) no improve (3/20)
+[trial 10] (058) train 0.017711 | valid 0.019045
+[trial 10] (059) no improve (4/20)
+[trial 10] (059) train 0.017583 | valid 0.019427
+[trial 10] (060) no improve (5/20)
+[trial 10] (060) train 0.017591 | valid 0.019014
+[trial 10] (061) no improve (6/20)
+[trial 10] (061) train 0.017714 | valid 0.019548
+[trial 10] (062) no improve (7/20)
+[trial 10] (062) train 0.017679 | valid 0.020220
+[trial 10] (063) no improve (8/20)
+[trial 10] (063) train 0.017565 | valid 0.018878
+[trial 10] (064) no improve (9/20)
+[trial 10] (064) train 0.017618 | valid 0.018737
+[trial 10] (065) no improve (10/20)
+[trial 10] (065) train 0.017628 | valid 0.019448
+[trial 10] (066) no improve (11/20)
+[trial 10] (066) train 0.017519 | valid 0.020730
+[trial 10] (067) no improve (12/20)
+[trial 10] (067) train 0.017547 | valid 0.019754
+[trial 10] (068) no improve (13/20)
+[trial 10] (068) train 0.017523 | valid 0.019112
+[trial 10] (069) no improve (14/20)
+[trial 10] (069) train 0.017473 | valid 0.019330
+[trial 10] Saved best: (070) train 0.017486 | valid 0.018548
+[trial 10] (070) train 0.017486 | valid 0.018548
+[trial 10] (071) no improve (1/20)
+[trial 10] (071) train 0.017513 | valid 0.019967
+[trial 10] (072) no improve (2/20)
+[trial 10] (072) train 0.017593 | valid 0.018548
+[trial 10] (073) no improve (3/20)
+[trial 10] (073) train 0.017387 | valid 0.018838
+[trial 10] (074) no improve (4/20)
+[trial 10] (074) train 0.017499 | valid 0.018923
+[trial 10] (075) no improve (5/20)
+[trial 10] (075) train 0.017433 | valid 0.019354
+[trial 10] (076) no improve (6/20)
+[trial 10] (076) train 0.017470 | valid 0.019050
+[trial 10] Saved best: (077) train 0.017453 | valid 0.018297
+[trial 10] (077) train 0.017453 | valid 0.018297
+[trial 10] (078) no improve (1/20)
+[trial 10] (078) train 0.017382 | valid 0.018644
+[trial 10] (079) no improve (2/20)
+[trial 10] (079) train 0.017489 | valid 0.018537
+[trial 10] (080) no improve (3/20)
+[trial 10] (080) train 0.017455 | valid 0.018993
+[trial 10] (081) no improve (4/20)
+[trial 10] (081) train 0.017419 | valid 0.019058
+[trial 10] (082) no improve (5/20)
+[trial 10] (082) train 0.017568 | valid 0.019465
+[trial 10] (083) no improve (6/20)
+[trial 10] (083) train 0.017487 | valid 0.019078
+[trial 10] (084) no improve (7/20)
+[trial 10] (084) train 0.017423 | valid 0.018691
+[trial 10] (085) no improve (8/20)
+[trial 10] (085) train 0.017396 | valid 0.018988
+[trial 10] (086) no improve (9/20)
+[trial 10] (086) train 0.017458 | valid 0.018568
+[trial 10] (087) no improve (10/20)
+[trial 10] (087) train 0.017397 | valid 0.018650
+[trial 10] (088) no improve (11/20)
+[trial 10] (088) train 0.017373 | valid 0.019964
+[trial 10] (089) no improve (12/20)
+[trial 10] (089) train 0.017473 | valid 0.019663
+[trial 10] (090) no improve (13/20)
+[trial 10] (090) train 0.017339 | valid 0.018935
+[trial 10] (091) no improve (14/20)
+[trial 10] (091) train 0.017469 | valid 0.019703
+[trial 10] (092) no improve (15/20)
+[trial 10] (092) train 0.017349 | valid 0.018715
+[trial 10] (093) no improve (16/20)
+[trial 10] (093) train 0.017379 | valid 0.018556
+[trial 10] (094) no improve (17/20)
+[trial 10] (094) train 0.017414 | valid 0.018649
+[trial 10] (095) no improve (18/20)
+[trial 10] (095) train 0.017478 | valid 0.018653
+[trial 10] (096) no improve (19/20)
+[trial 10] (096) train 0.017370 | valid 0.019625
+[trial 10] (097) no improve (20/20)
+[trial 10] early stop at (97) | best valid 0.018297
+
+trial 05 | valid 0.018058 | {'d_model': 128, 'nhead': 4, 'num_ts_layers': 2, 'dim_feedforward': 512, 'dropout': 0.2, 'station_emb_dim': 8, 'pool': 'last', 'loss': 'Huber', 'lr': 0.0005, 'weight_decay': 0.0, 'epochs': 100, 'patience': 10, 'grad_clip': 2.0} | results/random_search/Transformer/best_trial05.pth
+trial 01 | valid 0.018276 | {'d_model': 64, 'nhead': 4, 'num_ts_layers': 2, 'dim_feedforward': 256, 'dropout': 0.3, 'station_emb_dim': 8, 'pool': 'last', 'loss': 'Huber', 'lr': 0.0005, 'weight_decay': 0.0001, 'epochs': 100, 'patience': 10, 'grad_clip': 1.0} | results/random_search/Transformer/best_trial01.pth
+trial 10 | valid 0.018297 | {'d_model': 64, 'nhead': 8, 'num_ts_layers': 2, 'dim_feedforward': 512, 'dropout': 0.1, 'station_emb_dim': 12, 'pool': 'last', 'loss': 'Huber', 'lr': 0.0005, 'weight_decay': 0.0005, 'epochs': 100, 'patience': 20, 'grad_clip': 2.0} | results/random_search/Transformer/best_trial10.pth
+trial 03 | valid 0.018378 | {'d_model': 96, 'nhead': 4, 'num_ts_layers': 2, 'dim_feedforward': 256, 'dropout': 0.3, 'station_emb_dim': 16, 'pool': 'last', 'loss': 'Huber', 'lr': 0.001, 'weight_decay': 0.0001, 'epochs': 100, 'patience': 10, 'grad_clip': 0.5} | results/random_search/Transformer/best_trial03.pth
+trial 04 | valid 0.018718 | {'d_model': 128, 'nhead': 8, 'num_ts_layers': 2, 'dim_feedforward': 512, 'dropout': 0.3, 'station_emb_dim': 12, 'pool': 'last', 'loss': 'Huber', 'lr': 0.002, 'weight_decay': 0.0001, 'epochs': 200, 'patience': 10, 'grad_clip': 0.5} | results/random_search/Transformer/best_trial04.pth

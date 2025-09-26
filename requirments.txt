@@ -1,0 +1,8 @@
+pandas
+numpy
+folium
+matplotlib
+seaborn
+torch
+scikit-learn
+holidays

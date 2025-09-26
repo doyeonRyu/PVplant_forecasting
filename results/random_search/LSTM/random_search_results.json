@@ -1,0 +1,192 @@
+[
+    {
+        "trial": 9,
+        "params": {
+            "hidden_size": 96,
+            "num_layers": 1,
+            "dropout": 0.1,
+            "station_emb_dim": 12,
+            "loss": "Huber",
+            "lr": 0.0005,
+            "weight_decay": 0.0,
+            "epochs": 100,
+            "patience": 15,
+            "grad_clip": 0.5,
+            "optimizer": "NAdam"
+        },
+        "best_valid": 0.06935394919096703,
+        "epochs_used": 25,
+        "path": "results/random_search/LSTM/best_trial09.pth"
+    },
+    {
+        "trial": 3,
+        "params": {
+            "hidden_size": 128,
+            "num_layers": 1,
+            "dropout": 0.2,
+            "station_emb_dim": 12,
+            "loss": "Huber",
+            "lr": 0.002,
+            "weight_decay": 0.0005,
+            "epochs": 100,
+            "patience": 10,
+            "grad_clip": 2.0,
+            "optimizer": "NAdam"
+        },
+        "best_valid": 0.07506158102945545,
+        "epochs_used": 18,
+        "path": "results/random_search/LSTM/best_trial03.pth"
+    },
+    {
+        "trial": 7,
+        "params": {
+            "hidden_size": 64,
+            "num_layers": 1,
+            "dropout": 0.2,
+            "station_emb_dim": 8,
+            "loss": "Huber",
+            "lr": 0.002,
+            "weight_decay": 0.0,
+            "epochs": 500,
+            "patience": 15,
+            "grad_clip": 0.5,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.07746754192616329,
+        "epochs_used": 19,
+        "path": "results/random_search/LSTM/best_trial07.pth"
+    },
+    {
+        "trial": 1,
+        "params": {
+            "hidden_size": 128,
+            "num_layers": 2,
+            "dropout": 0.1,
+            "station_emb_dim": 16,
+            "loss": "Huber",
+            "lr": 0.0005,
+            "weight_decay": 0.0005,
+            "epochs": 100,
+            "patience": 15,
+            "grad_clip": 1.0,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.08104241995089992,
+        "epochs_used": 49,
+        "path": "results/random_search/LSTM/best_trial01.pth"
+    },
+    {
+        "trial": 2,
+        "params": {
+            "hidden_size": 64,
+            "num_layers": 2,
+            "dropout": 0.3,
+            "station_emb_dim": 12,
+            "loss": "Huber",
+            "lr": 0.002,
+            "weight_decay": 0.0005,
+            "epochs": 200,
+            "patience": 20,
+            "grad_clip": 1.0,
+            "optimizer": "NAdam"
+        },
+        "best_valid": 0.09155257123428322,
+        "epochs_used": 34,
+        "path": "results/random_search/LSTM/best_trial02.pth"
+    },
+    {
+        "trial": 4,
+        "params": {
+            "hidden_size": 128,
+            "num_layers": 2,
+            "dropout": 0.1,
+            "station_emb_dim": 16,
+            "loss": "MSE",
+            "lr": 0.0005,
+            "weight_decay": 0.0005,
+            "epochs": 100,
+            "patience": 20,
+            "grad_clip": 0.5,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.15465775408793314,
+        "epochs_used": 62,
+        "path": "results/random_search/LSTM/best_trial04.pth"
+    },
+    {
+        "trial": 6,
+        "params": {
+            "hidden_size": 64,
+            "num_layers": 1,
+            "dropout": 0.3,
+            "station_emb_dim": 12,
+            "loss": "MSE",
+            "lr": 0.0005,
+            "weight_decay": 0.0001,
+            "epochs": 200,
+            "patience": 20,
+            "grad_clip": 2.0,
+            "optimizer": "AdamW"
+        },
+        "best_valid": 0.15747381009763012,
+        "epochs_used": 37,
+        "path": "results/random_search/LSTM/best_trial06.pth"
+    },
+    {
+        "trial": 10,
+        "params": {
+            "hidden_size": 128,
+            "num_layers": 1,
+            "dropout": 0.3,
+            "station_emb_dim": 8,
+            "loss": "MSE",
+            "lr": 0.002,
+            "weight_decay": 0.0005,
+            "epochs": 500,
+            "patience": 10,
+            "grad_clip": 0.5,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.15911837376876767,
+        "epochs_used": 28,
+        "path": "results/random_search/LSTM/best_trial10.pth"
+    },
+    {
+        "trial": 5,
+        "params": {
+            "hidden_size": 96,
+            "num_layers": 2,
+            "dropout": 0.2,
+            "station_emb_dim": 8,
+            "loss": "MSE",
+            "lr": 0.002,
+            "weight_decay": 0.0,
+            "epochs": 500,
+            "patience": 15,
+            "grad_clip": 0.5,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.17808493641214013,
+        "epochs_used": 22,
+        "path": "results/random_search/LSTM/best_trial05.pth"
+    },
+    {
+        "trial": 8,
+        "params": {
+            "hidden_size": 96,
+            "num_layers": 2,
+            "dropout": 0.3,
+            "station_emb_dim": 16,
+            "loss": "MSE",
+            "lr": 0.001,
+            "weight_decay": 0.0,
+            "epochs": 500,
+            "patience": 20,
+            "grad_clip": 1.0,
+            "optimizer": "Adam"
+        },
+        "best_valid": 0.1886037022386928,
+        "epochs_used": 50,
+        "path": "results/random_search/LSTM/best_trial08.pth"
+    }
+]
