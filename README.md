@@ -74,3 +74,6 @@
     7. 모델 예측
         - test 데이터 사용
         - 각 station 별 power 예측
+
+### 6. Deployment
+- station별 모델별 예측값, 실제값 시각화
