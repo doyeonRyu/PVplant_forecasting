@@ -1,0 +1,2 @@
+class PVPlantCNN():
+    pass

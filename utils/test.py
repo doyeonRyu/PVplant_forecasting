@@ -174,5 +174,6 @@ def metrics(best_path, model, data_loader, y_scaler, device):
     mse = skm.mean_squared_error(all_y, all_yhat)
     rmse = np.sqrt(mse)
     mape = skm.mean_absolute_percentage_error(all_y, all_yhat)
+    r2 = skm.r2_score(all_y, all_yhat)
 
-    return mae, rmse, mape
+    return mae, rmse, mape, r2
