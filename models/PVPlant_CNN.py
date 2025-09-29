@@ -17,12 +17,16 @@ class PVPlantCNN(nn.Module):
                 out_channels,
                 kernel_size,
                 stride,
-                dilation,
-                padding,
-                groups,
-                bias,
-                padding_mode,
-                dropout
+                dilation=1,
+                padding=0,
+                groups=1,
+                bias=True,
+                padding_mode='zeros',
+                pool_kernel_size=2,
+                pool_stride=2,
+                dropout=0.0,
+                lstm_in_features=32, # LSTM 입력 피처 수
+                use_bn=True # 배치 정규화 사용 여부
     ):
         """
         Function: __init__
@@ -40,21 +44,31 @@ class PVPlantCNN(nn.Module):
         Return: 
             - None
         """
-        super(PVPlantCNN, self).__init__()
-        self.cnn = nn.Conv1d(in_channels=in_channels,
-                             out_channels=out_channels,
-                             kernel_size=kernel_size,
-                             stride=stride,
-                             dilation=dilation,
-                             padding=padding,
-                             groups=groups,
-                             bias=bias,
-                             padding_mode=padding_mode)
-        self.bn = nn.BatchNorm1d(out_channels) # 배치 정규화 
-        self.relu = nn.ReLU() # 활성화 함수 ReLU
-        self.dropout = nn.Dropout(dropout) # 드롭아웃
-        # self.flatten = nn.Flatten() # 평탄화 레이어
+        super().__init__()
 
+        # 1D CNN 레이어
+        self.cnn = nn.Conv1d(in_channels,
+                            out_channels,
+                            kernel_size,
+                            stride,
+                            dilation,
+                            padding,
+                            groups,
+                            bias,
+                            padding_mode)
+        
+        # 배치 정규화 레이어 
+        self.bn = nn.BatchNorm1d(out_channels) if use_bn else nn.Identity()
+        # 활성화 함수 ReLU
+        self.relu = nn.ReLU()
+        # 드롭아웃
+        self.dropout = nn.Dropout(dropout)
+        # max pooling 레이어 [B, C_out, L_conv] -> [B, C_out, L_pool]
+        self.pool = nn.MaxPool1d(kernel_size=pool_kernel_size, stride=pool_stride)
+        # 평탄화 레이어 [B, C_out, L_pool] -> [B, C_out * L_pool]
+        self.flatten = nn.Flatten()
+        # LSTM 입력에 맞도록 Lazy Linear 레이어로 차원 맞추기
+        self.fc = nn.LazyLinear(lstm_in_features)
     def forward(self, x):
         """
         Function: forward
@@ -62,14 +76,22 @@ class PVPlantCNN(nn.Module):
         Parameters:
             - x: 입력 시퀀스 [B, C_in, L_in]
         Return:
-            - x [B, L_out, C_out]
-                - LSTM 모델 입력값으로 쓰이기 위한 형태
+            - x: LSTM 입력에 맞게 변환된 시퀀스 [B, L_out=1, C_out=F]
+            -  (B: 배치 크기, C_in: 입력 채널 수, L_in: 시퀀스 길이, C_out: 출력 채널 수, L_out: 출력 시퀀스 길이, F: LSTM 입력 피처 수)
         """
-        # x; [B, C_in, L_in] (B: 배치 크기, C_in: 입력 채널 수, L_in: 시퀀스 길이)
+        # x: [B, C_in, L_in] (B: 배치 크기, C_in: 입력 채널 수, L_in: 시퀀스 길이)
+
+        # Conv 블록 
         x = self.cnn(x) # [B, C_out, L_out]
-        x = self.bn(x) # 배치 정규화
-        x = self.relu(x) # 활성화 함수
-        x = self.dropout(x) # 드롭아웃
-        # x = self.flatten(x) # 평탄화
-        x = x.permute(0, 2, 1) # [B, C_out, L_out] -> [B, L_out, C_out] (LSTM에 맞춤)
-        return x # [B, L_out, C_out]
+        x = self.bn(x) # 배치 정규화 [B, C_out, L_out]
+        x = self.relu(x) # 활성화 함수 [B, C_out, L_out]
+        x = self.dropout(x) # 드롭아웃 [B, C_out, L_out]
+
+        # Pooling + Flatten
+        x = self.pool(x) # max pooling [B, C_out, L_pool]
+        x = self.flatten(x) # 평탄화 [B, C_out * L_pool]
+
+        # LSTM 입력에 맞게 차원 변환
+        x = self.fc(x) # [B, F(lstm_in_features)]
+        x = x.unsqueeze(1) # LSTM 입력에 맞게 차원 추가 [B, 1, F]
+        return x # [B, L_out=1, C_out=F]

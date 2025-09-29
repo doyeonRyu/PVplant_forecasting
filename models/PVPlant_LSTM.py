@@ -50,10 +50,16 @@ class PVPlantLSTM(nn.Module):
             dropout=dropout if num_layers > 1 else 0.0 # LSTM dropout은 layer > 1에서만 적용
         )
 
-        self.st_emb = nn.Embedding(num_stations, station_emb_dim) # station 임베딩 레이어
+        # station 임베딩 레이어 (num_stations가 None이면 생성하지 않음)
+        if num_stations is not None:
+            self.st_emb = nn.Embedding(num_stations, station_emb_dim)
+            emb_dim = station_emb_dim
+        else:
+            self.st_emb = None
+            emb_dim = 0  # 임베딩 없으면 0
 
-        # FC head 입력 크기 정의: LSTM hidden 출력 + station 임베딩 + 메타 피처
-        fusion_in = hidden_size * self.num_directions + station_emb_dim + (meta_dim if meta_dim > 0 else 0)
+        # FC head 입력 크기 정의: LSTM hidden 출력 + (station 임베딩 있으면) + (메타 피처)
+        fusion_in = hidden_size * self.num_directions + emb_dim + (meta_dim if meta_dim > 0 else 0)
 
         # 최종 fully connected head
         self.head = nn.Sequential(
@@ -63,7 +69,7 @@ class PVPlantLSTM(nn.Module):
             nn.Linear(max(32, fusion_in // 2), output_size) # output_size: 1 또는 H
         ) # output: (B, output_size). 최종 출력
 
-    def forward(self, x, station_idx, meta=None):
+    def forward(self, x, station_idx=None, meta=None):
         """
         Function: forward
             - LSTM 모델 순전파
@@ -88,14 +94,33 @@ class PVPlantLSTM(nn.Module):
         h_last = h_n[-1] # 마지막 레이어의 hidden state만 추출 (B, H * num_directions)
 
         # e = self.st_emb(station_idx) # station_idx를 embedding vector로 변환 (B, station_emb_dim)
-        e = self.st_emb(station_idx.long()) # station_idx를 embedding vector로 변환 (B, station_emb_dim)
+        # st_emb가 있을 때만 사용하고, station_idx가 None이면 0벡터 대체
+        e = None
+        # self.st_emb가 None이 아니어야만 임베딩 관련 로직을 실행
+        if self.st_emb is not None: 
+            
+            # 1. station_idx가 입력된 경우: 실제 임베딩 벡터 생성
+            if station_idx is not None:
+                e = self.st_emb(station_idx.long()) # (B, station_emb_dim)
+                
+            # 2. station_idx는 None이지만, 모델이 임베딩을 지원하는 경우: 0 벡터 생성
+            else:
+                # self.st_emb가 None이 아니므로 .embedding_dim에 안전하게 접근 가능
+                emb_dim = self.st_emb.embedding_dim 
+                e = torch.zeros(B, emb_dim, device=x.device, dtype=x.dtype) # (B, station_emb_dim) 0벡터
 
-        # LSTM 출력 + station 임베딩 + 메타 피처 결합
-        if meta is not None:
-            z = torch.cat([h_last, e, meta], dim=-1)
-        else:
-            z = torch.cat([h_last, e], dim=-1)
+        # meta 피처 처리
+        m = meta.to(device=x.device, dtype=x.dtype) if meta is not None else None
+
+        # 특징 결합
+        feats = [h_last]    # 항상 포함
+        if e is not None:
+            feats.append(e)
+        if m is not None:
+            feats.append(m)
+
+        z = torch.cat(feats, dim=-1)
 
         # FC Head 통과 후 최종 출력
         y_hat = self.head(z)
-        return y_hat # (B, output_size)
+        return y_hat # (B, output_size) 
