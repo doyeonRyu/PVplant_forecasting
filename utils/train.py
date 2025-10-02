@@ -1,99 +1,8 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-
-def _to_device(batch, device):
-    """
-    Function: _to_device
-        - DataLoader에서 가져온 배치를 장치에 맞게 변환
-        - 동일한 배치 형태 유지를 위해
-    Parameters:
-        - batch: tuple
-            - (xb, s_idx, meta, yb) 형태의 배치 데이터
-        - device: torch.device
-            - 데이터를 이동시킬 장치 (cuda)
-    Returns:
-        - tuple
-            - 장치로 이동된 (xb, s_idx, meta, yb)
-    """
-    if len(batch) == 2:
-        xb, yb = batch
-        xb = xb.to(device, non_blocking=True)
-        yb = yb.to(device, non_blocking=True)
-        return xb, None, None, yb
-    
-    elif len(batch) == 4:
-        xb, s_idx, meta, yb = batch
-        xb = xb.to(device, non_blocking=True)
-        yb = yb.to(device, non_blocking=True)
-
-        # s_idx와 meta가 None이 아닐 때만 to(device)
-        if s_idx is not None:
-            s_idx = s_idx.to(device, non_blocking=True)
-        if meta is not None:
-            meta = meta.to(device, non_blocking=True)
-
-        return xb, s_idx, meta, yb
-    else:
-        raise ValueError(f"Unexpected batch length: {len(batch)}")
-
-class SeqDataset(torch.utils.data.Dataset):
-    """
-    Class: SeqDataset
-        - 시계열 입력(x), 타깃(y), 발전소 인덱스(s), 메타데이터(meta)를 포함하는 데이터셋
-        - 하나의 샘플을 (x, s, meta, y) 형태의 묶음으로 반환
-        - 이후 DataLoader로 감싸서 배치 단위로 모델에 공급
-    Parameters:
-        - x: 입력 시계열, shape=(N, L, F)
-        - y: 타깃 값, shape=(N,) 또는 (N, T)
-        - s: 발전소 인덱스, shape=(N,)
-        - meta: 메타데이터, shape=(N, M) 또는 None
-    Returns: None
-    """
-    def __init__(self, x, y, s, meta=None):
-        self.x = x
-        self.y = y
-
-        if s is None:
-            self.s = None
-        else:
-            self.s = s 
-            if self.s.dtype != torch.long:
-                self.s = self.s.long()
-
-        if meta is None:
-            self.meta = None
-        else:
-            self.meta = meta 
-            if self.meta.dtype not in (torch.float32, torch.float64):
-                self.meta = self.meta.float()
-
-    def __len__(self):
-        return self.x.shape[0]
-
-    def __getitem__(self, i):
-        xi = self.x[i]
-        yi = self.y[i]
-
-        # 둘 다 None -> 2-튜플
-        if (self.s is None) and (self.meta is None):
-            return xi, yi
-
-        # s만 None -> (x, meta, y) 3-튜플
-        if self.s is None:
-            mi = self.meta[i]
-            return xi, mi, yi
-
-        # meta만 None -> (x, s, y) 3-튜플
-        if self.meta is None:
-            si = self.s[i]
-            return xi, si, yi
-
-        # 둘 다 존재 -> 4-튜플
-        si = self.s[i]
-        mi = self.meta[i]
-        return xi, si, mi, yi
-
+from utils.setup import _to_device, SeqDataset, SeqDataset_single_model
+        
 def train(loader, model, criterion, optimizer, device):
     """
     Function: train
@@ -120,10 +29,7 @@ def train(loader, model, criterion, optimizer, device):
         if hasattr(model, "forward") and model.forward.__code__.co_argcount >= 4:
             # 4개 이상이면 s_idx, meta도 전달 (4개 이상: self, x, station_idx, meta)
             yhat = model(xb, s_idx, meta)
-        elif hasattr(model, "forward") and model.forward.__code__.co_argcount == 3:
-            # 3개면 s_idx만 전달 (3개: self, x, station_idx)
-            yhat = model(xb, s_idx)
-        else: # 2개면 s_idx, meta는 None
+        else: # 4개 미만이면 s_idx, meta는 None 
             yhat = model(xb)
 
         # 타깃 차원 보정 (1D -> 2D)
@@ -186,3 +92,58 @@ def train_randomSearch(loader, model, criterion, optimizer, device, grad_clip=No
         total += loss.item() * bs # 손실 합계 갱신
         n += bs # 샘플 수 갱신
     return total / max(n, 1) # 평균 손실 반환
+
+def train_cnn_lstm(loader, cnn, lstm, criterion, optimizer, device):
+    """
+    Function: train_cnn_lstm
+        - CNN + LSTM 모델을 한 epoch 동안 학습 
+    Parameters:
+        - loader: DataLoader, 학습 데이터 로더
+        - cnn: PVPlantCNN 모델
+        - lstm: PVPlantLSTM 모델
+        - criterion: 손실 함수
+        - optimizer: 최적화 알고리즘
+        - device: torch.device, 연산 장치 (CPU or GPU)
+    Returns:
+        - epoch_loss: float, epoch 동안의 평균 손실
+    """
+    cnn.train()
+    lstm.train()
+
+    total_sum, total_cnt = 0.0, 0 # epoch 동안의 누적 손실과 샘플 수
+
+    for batch in loader:
+        xb, s_idx, meta, yb = _to_device(batch, device) # 배치를 장치에 맞게 변환
+        #  s_idx, meta는 단일 발전소이므로 사용하지 않음
+
+        # CNN 입력 형태로 변환
+        # [B, L, F] -> [B, F, L]
+        if xb.dim() == 3:
+            # L, F 위치 스위치
+            xb = xb.permute(0, 2, 1) # [B, L, F] -> [B, F, L]
+        elif xb.dim() == 2: # L=1인 경우 [B, F] 형태
+            xb = xb.unsqueeze(-1) # [B, F] -> [B, F, 1]
+        
+        # 1. CNN forward
+        cnn_out = cnn(xb) # [B, F, L] 형태
+        
+        # 2. LSTM forward
+        yhat = lstm(cnn_out) # [B, output_window] or [B,] 형태
+
+        # 타깃 차원 보정 (손실 계산을 위해)
+        if yb.dim() == 1 and yhat.dim() == 2 and yhat.size(1) == 1:
+            yb = yb.unsqueeze(-1) # (N,) -> (N, 1)
+
+        # 3. 손실 계산
+        loss = criterion(yhat, yb)
+
+        # 4. 역전파
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        optimizer.step()
+
+        bs = xb.size(0) # 배치 크기
+        total_sum += loss.item() * bs # 배치 손실의 합
+        total_cnt += bs # 배치 샘플 수 누적
+
+    return total_sum / max(total_cnt, 1) # epoch 평균 손실

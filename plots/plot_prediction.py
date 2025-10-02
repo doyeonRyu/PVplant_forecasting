@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import pandas as pd
+from utils.setup import _to_device
 
 def _to_device(batch, device):
     """배치를 지정된 device로 이동"""
@@ -190,6 +191,155 @@ def plot_station_with_predictions(
         ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300, bbox_inches="tight")
+    plt.show()
+
+def plot_Owaolabi_predictions_chained(
+    cnn, lstm, loader, df, device,
+    input_len=10, output_len=1, start_idx=0,
+    std_scaler=None,  
+    mm_scaler=None,      
+    logged: bool = False, 
+    view_days = 2, 
+    tgt_station_name="station",
+    save_path=None
+):
+    # 역변환 (std_scaler -> mm_scaler -> (log))
+    def _inv_transform_1d(arr_1d):
+        arr = arr_1d.reshape(-1, 1) # (N,) -> (N, 1)
+        if std_scaler is not None:
+            arr = std_scaler.inverse_transform(arr)
+        if mm_scaler is not None:
+            arr = mm_scaler.inverse_transform(arr)
+        arr = arr.reshape(-1) # (N, 1) -> (N,)
+        if logged:
+            arr = np.expm1(arr) # log 역변환
+        return arr
+    
+    if "date_time" in df.columns:
+        df = df.sort_values("date_time").reset_index(drop=True)
+        df["date_time"] = pd.to_datetime(df["date_time"])
+    
+    # 시작/종료 시점 계산
+    if start_idx + input_len >= len(df):
+        print(f"[warn] start_idx+input_len가 데이터 길이 초과")
+        return
+
+    start_time = df.loc[start_idx, "date_time"] # 시작 시점
+    view_end_time = start_time + pd.Timedelta(days=view_days) # 시각화 종료 시점
+
+    # 입력 구간, 출력 구간 나누기
+    # 입력: [start_time, start_time + input_len]
+    input_start = start_time
+    input_end = df.loc[start_idx + input_len - 1, "date_time"]
+    input_mask = (df["date_time"] >= input_start) & (df["date_time"] <= input_end)
+    input_part = df.loc[input_mask, ["date_time", "power"]].copy()
+    
+    # 출력 실제값: [input_end, view_end_time] 범위
+    out_mask = (df["date_time"] > input_end) & (df["date_time"] <= view_end_time)
+    output_part = df.loc[out_mask, ["date_time", "power"]].copy()
+
+    # 예측을 view_days 단위 만큼 수행
+    cnn.eval()
+    lstm.eval()
+
+    # 필요한 샘플 인덱스들을 수집
+    # df.iloc[i+input_len : i+input_len+output_len]의 date_time
+    needed_indices = []
+    i = start_idx
+    while True:
+        out_start_i = i + input_len # 출력 시작 인덱스
+        out_end_i = i + input_len + output_len # 출력 종료 인덱스 (미포함)
+        if out_start_i >= len(df):
+            break
+        t0 = df.loc[out_start_i, "date_time"]
+        if t0 > view_end_time:
+            break
+        needed_indices.append(i)
+        i += 1
+
+    if len(needed_indices) == 0:
+        print("[warn] 예측에 사용할 샘플 인덱스가 없습니다.")
+        return
+
+    # 한 번의 loader 순회로 needed_indices에 해당하는 예측만 뽑아오기
+    seen = 0 # 지금까지 본 샘플 수 (글로벌 오프셋)
+    pred_map = {} # 예측 결과를 시간별로 누적(겹치면 최신 예측으로 덮어쓰기)
+
+    with torch.no_grad():
+        for batch in loader:
+            xb = batch[0]
+            bs = xb.size(0)
+
+            g0 = seen
+            g1 = seen + bs
+
+            to_pick = [idx for idx in needed_indices if g0 <= idx < g1]
+            if to_pick:
+                xb, s_idx, meta, yb = _to_device(batch, device)
+                
+                # CNN 입력 형태로 변환
+                if xb.dim() == 3:
+                    xb = xb.permute(0, 2, 1)
+                elif xb.dim() == 2:
+                    xb = xb.unsqueeze(1)
+
+                # 배치 전체 forward
+                cnn_out = cnn(xb) # [B, F, L]
+                yhat = lstm(cnn_out) # [B, output_len] or [B,]
+                yhat_np = yhat.detach().cpu().numpy() # (B, H)
+
+                # 필요한 오프셋만 꺼내 시간축에 매핑
+                for idx in to_pick:
+                    off = idx - g0 # 배치 내 오프셋
+                    pred_seq = yhat_np[off].reshape(-1)
+                    pred_seq = _inv_transform_1d(pred_seq) # 역변환
+                    
+                    # pred_seq를 df의 시간축에 맞춰 매핑
+                    s = idx + input_len
+                    e = min(s + output_len, len(df))
+                    times = df.loc[s:e-1, "date_time"].values
+
+                    # view_end_time을 넘는 부분은 버림
+                    for t, v in zip(times, pred_seq[:len(times)]):
+                        if t <= view_end_time:
+                            pred_map[pd.Timestamp(t)] = float(v)
+
+            # seen 이동
+            seen += bs
+            
+            # 모든 needed_indices를 소화했으면 종료
+            if seen > max(needed_indices):
+                break
+
+    # pred_map -> 정렬된 시계열로 변환
+    if len(pred_map) == 0:
+        print("[warn] 예측 결과가 비어 있습니다.")
+        return
+    
+    pred_series = pd.Series(pred_map).sort_index()
+    pred_time = pred_series.index
+    y_pred_rec = pred_series.values
+
+    # ===================================================
+    # 시각화
+    plt.figure(figsize=(10, 4.8))
+    plt.plot(input_part["date_time"], input_part["power"], label="Input (Actual)", linewidth=2)
+    plt.plot(output_part["date_time"], output_part["power"], label="Output (Actual)", linewidth=2)
+    plt.plot(pred_time, y_pred_rec, linestyle="--", label="Predicted (chained)", linewidth=2, marker="o", markersize=3)
+    plt.axvline(input_part["date_time"].iloc[-1], linestyle=":", alpha=0.7)
+
+    title = f"[{tgt_station_name}] PVPlant Power Forecast | In_window={input_len}, Out_window={output_len}"
+    plt.title(title)
+    plt.xlabel("Time")
+    plt.ylabel("Power")
+    plt.xticks(rotation=45)
+    plt.grid(True, alpha=0.3)
+    plt.legend(loc="best")
+    plt.xlim([input_start, view_end_time])
+    plt.tight_layout()
+    
     if save_path is not None:
         plt.savefig(save_path, dpi=300, bbox_inches="tight")
     plt.show()
