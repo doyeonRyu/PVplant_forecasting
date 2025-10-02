@@ -1,6 +1,4 @@
 /PVODdatasets_v1.0/
 /output/
 /etc/
-/models/__pycache__/
-/plots/__pycache__/
-/utils/__pycache__/
+__pycache__/
