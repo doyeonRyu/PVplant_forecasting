@@ -14,6 +14,9 @@ def _to_device(batch, device):
     else:
         return batch
 
+"""
+각 station별 예측 결과 시각화 함수
+"""
 def plot_station_with_predictions(
     model, valid_loader, valid_df, device, input_len=96, output_len=4, start_idx=0,
     feature_idx=0, # 입력 x에서 타깃 피처의 인덱스
@@ -195,6 +198,312 @@ def plot_station_with_predictions(
         plt.savefig(save_path, dpi=300, bbox_inches="tight")
     plt.show()
 
+"""
+각 station별 Output_window가 1일 때 연속적으로 예측 결과 시각화하는 함수 
+"""
+def plot_station_forecast_chained(
+    model, data_loader, data_df, device,
+    input_len=10, output_len=1, start_idx=0,
+    y_scaler=None,
+    log_target=True,
+    station_id=None,
+    view_days=2,
+    max_plots=None,
+    permute_to_BFL=False,
+    save_path=None
+):
+    """
+    Function: plot_station_with_predictions
+        - 각 스테이션별로 예측 결과를 시각화
+    Parameters:
+        - model: best_lstm or best_transformer
+        - data_loader: DataLoader (valid or test)
+        - df: pd.DataFrame (valid_df or test_df)
+        - device: cuda
+        - input_len = input_window (default: 10)
+        - output_len = output_window (default: 1)
+        - start_idx: int (default: 0)
+            - 각 스테이션별로 시작 인덱스 (로컬 인덱스)
+        - y_scaler: StandardScaler (default: y_scaler)
+        - log_target: bool (default: True)
+            - 타겟이 로그 변환된 경우 True
+        - station_id: str or list (default: None)
+            - 특정 스테이션 ID 또는 ID 리스트 (None이면 첫 번째 스테이션만)
+        - view_days: 시각화할 기간 (일 단위, default: 2)
+        - max_plots: int or None (default: None)
+            - 최대 시각화할 스테이션 수 (None이면 모두)
+        - permute_to_BFL: bool (default: False)
+            - 모델 입력 텐서의 차원 순서가 (B, F, L)인 경우 True
+        - save_path: str or None (default: None)
+    Returns:
+        - None (시각화 출력 및 저장)
+    """
+    
+    # ========== 역변환 함수 (standard scaler -> expm1)==========
+    def _inv_standard_log1p(arr_1d: np.ndarray) -> np.ndarray:
+        a = arr_1d.reshape(-1, 1) # 2D array로 변환
+        if y_scaler is not None: # standard scaler 역변환
+            a = y_scaler.inverse_transform(a)
+        a = a.ravel() # 1D array로 변환
+        if log_target: # expm1 역변환
+            a = np.expm1(a)
+            a = np.maximum(a, 0) # 음수 제거
+        return a
+
+    # ========== 데이터 준비 ==========
+    df_all = data_df.copy()
+    if "date_time" in df_all.columns: 
+        df_all["date_time"] = pd.to_datetime(df_all["date_time"])
+    
+    df_all = df_all.reset_index(drop=True) 
+    df_all['global_idx'] = df_all.index # 글로벌 인덱스 추가
+    # global_idx example: station_01 (0~999), station_02 (1000~1999), ... 
+
+    # station 리스트 준비
+    if "Station_ID" in df_all.columns:
+        all_stations = df_all["Station_ID"].astype(str).unique().tolist()
+        #  all_stations example: ['station_01', 'station_02', ...]
+    else:
+        all_stations = [None]
+
+    # station_id 정규화 | 리스트 형태로 변환
+    if station_id is None:
+        station_list = all_stations[:1]
+    elif isinstance(station_id, (list, tuple, pd.Series, np.ndarray)):
+        station_list = pd.Series(station_id, dtype="object").astype(str).unique().tolist()
+        # station_list example: ['station_01', 'station_02', ...]
+    else:
+        station_list = [str(station_id)]
+
+    # max_plots 적용: station_list 자르기
+    if max_plots is not None: 
+        station_list = station_list[:int(max_plots)] 
+
+    # ========== 배치 언패킹 함수 ==========
+    def _unpack_batch(batch):
+        xb = batch[0]
+        s_idx = None
+        meta = None
+        if len(batch) >= 2 and isinstance(batch[1], torch.Tensor):
+            if len(batch) == 4:
+                s_idx, meta = batch[1], batch[2]
+            elif len(batch) == 3:
+                s_idx = batch[1]
+        return xb, s_idx, meta
+
+    # ========= station별 예측 및 시각화 ==========
+    for sid in station_list:
+        print(f"\n{'='*60}")
+        print(f"Processing Station: {sid}")
+        print(f"{'='*60}")
+        
+        # station별 데이터 필터링
+        if sid is None or "Station_ID" not in df_all.columns: # 단일 station 또는 ID 컬럼 없는 경우
+            df = df_all.copy() # 전체 사용
+        else: # 여러 station 중 sid에 해당하는 station 필터링
+            df = df_all[df_all["Station_ID"].astype(str) == sid].copy()
+
+        df = df.sort_values("date_time").reset_index(drop=True)
+        
+        if start_idx + input_len >= len(df):
+            print(f"[경고] Station {sid}: 데이터 부족")
+            continue
+
+        # ========== 시간 구간 설정 ==========
+        start_time = df.loc[start_idx, "date_time"] # input_window 시작 시점
+        input_start = start_time 
+        input_end = df.loc[start_idx + input_len - 1, "date_time"] # input_window 끝 시점
+        view_end = start_time + pd.Timedelta(days=view_days) # 시각화 종료 시점
+
+        input_mask = (df["date_time"] >= input_start) & (df["date_time"] <= input_end) # input_window 구간
+        input_part = df.loc[input_mask, ["date_time", "power"]].copy() 
+        
+        output_mask = (df["date_time"] > input_end) & (df["date_time"] <= view_end) # 예측 확인용 실제값 필터
+        output_part = df.loc[output_mask, ["date_time", "power"]].copy()
+
+        # ========== 예측 인덱스 계산 ==========
+        """
+        핵심 개념:
+        - input_window_start: 입력 윈도우의 시작 로컬 인덱스 (모델에 넣을 샘플)
+        - pred_timestamp_idx: 예측값이 대응되는 실제 타임스탬프의 로컬 인덱스
+        
+        예시 (input_len=10, output_len=1):
+        - 윈도우 [0~9] → 예측 시점 10
+        - 윈도우 [1~10] → 예측 시점 11
+        """
+        # 예측 시점 정보를 저장할 리스트 초기화 
+        prediction_info = []  # [(global_idx, input_start_local, pred_timestamp_local), ...]
+        
+        # 입력 윈도우 시작 인덱스를 현재 위치로 초기화
+        current_local_idx = start_idx 
+        
+        while True:
+            # 입력 윈도우: [current_local_idx : current_local_idx + input_len]
+            # 예측 시점: current_local_idx + input_len
+
+            # 현재 윈도우의 예측 시점 인덱스 = 시작 인덱스 + input_len
+            pred_timestamp_idx = current_local_idx + input_len
+            
+            if pred_timestamp_idx >= len(df):
+                break
+            
+            # 예측 시점의 실제 타임스탬프 
+            pred_time = df.loc[pred_timestamp_idx, "date_time"]
+
+            # 시각화 종료 시점(view_end) 넘으면 중단
+            if pred_time > view_end:
+                break
+            
+            # 글로벌 인덱스는 입력 윈도우의 시작점 기준
+            # 전체 df_all 기준에서의 현재 샘플의 전역 인덱스 
+            # global_idx example: station_01 (0~999), station_02 (1000~1999), ...
+            global_idx = df.loc[current_local_idx, 'global_idx']
+            # 예측 정보 저장
+            #    (글로벌 인덱스, 입력 윈도우 시작 로컬 인덱스, 예측 시점 로컬 인덱스)
+            prediction_info.append((global_idx, current_local_idx, pred_timestamp_idx))
+            
+            current_local_idx += 1 # 다음 윈도우로 이동
+            
+            if len(prediction_info) > 10000:
+                print(f"[경고] Station {sid}: 예측 인덱스 과다")
+                break
+
+        if not prediction_info:
+            print(f"[경고] Station {sid}: 예측 가능한 인덱스 없음")
+            continue
+
+        print(f"예측 샘플 수: {len(prediction_info)}")
+        print(f"글로벌 인덱스 범위: {prediction_info[0][0]} ~ {prediction_info[-1][0]}")
+        print(f"예측 시점 범위: {df.loc[prediction_info[0][2], 'date_time']} ~ {df.loc[prediction_info[-1][2], 'date_time']}")
+
+        # ========== 모델 예측 수행 ==========
+        model.eval()
+        pred_map = {}
+        batch_offset = 0
+        
+        with torch.no_grad():
+            for batch_idx, batch in enumerate(data_loader):
+                xb, s_idx, meta = _unpack_batch(batch)
+                batch_size = xb.size(0)
+                batch_start = batch_offset
+                batch_end = batch_offset + batch_size
+
+                # 현재 배치에 포함된 예측 샘플 찾기
+                samples_in_batch = [(g, inp_start, pred_ts) 
+                                   for g, inp_start, pred_ts in prediction_info 
+                                   if batch_start <= g < batch_end]
+                
+                if samples_in_batch:
+                    xb_dev = xb.to(device, non_blocking=True)
+                    
+                    if permute_to_BFL and xb_dev.dim() == 3:
+                        xb_dev = xb_dev.permute(0, 2, 1)
+
+                    kwargs = {} # station_idx, meta 전달용
+                    if s_idx is not None:
+                        kwargs["station_idx"] = s_idx.to(device, non_blocking=True)
+                    if meta is not None:
+                        meta_dev = meta.to(device, non_blocking=True)
+                        if meta_dev.dim() == 3:
+                            meta_dev = meta_dev.mean(dim=1)
+                        kwargs["meta"] = meta_dev
+
+                    # 모델 forward
+                    try:
+                        yhat = model(xb_dev, **kwargs)
+                    except TypeError:
+                        try:
+                            yhat = model(xb_dev, 
+                                       kwargs.get("station_idx", None), 
+                                       kwargs.get("meta", None))
+                        except TypeError:
+                            yhat = model(xb_dev)
+
+                    yhat_np = yhat.detach().cpu().numpy()  # [B, output_len]
+                    
+                    for g_idx, inp_start, pred_ts_idx in samples_in_batch:
+                        batch_offset_idx = g_idx - batch_start
+                        pred_seq = _inv_standard_log1p(yhat_np[batch_offset_idx].reshape(-1))
+                        
+                        # ✅ 핵심 수정: pred_ts_idx 사용 (예측 시점의 실제 타임스탬프)
+                        pred_timestamp = df.loc[pred_ts_idx, "date_time"]
+                        
+                        # output_len만큼 매핑 (일반적으로 1개)
+                        for step in range(min(output_len, len(pred_seq))):
+                            if pred_ts_idx + step < len(df):
+                                ts = df.loc[pred_ts_idx + step, "date_time"]
+                                ts = pd.Timestamp(ts)
+                                if ts <= view_end:
+                                    pred_map[ts] = float(pred_seq[step])
+                    
+                    # 첫 배치 디버깅
+                    if batch_idx == 0 and samples_in_batch:
+                        g0, inp0, pred0 = samples_in_batch[0]
+                        offset0 = g0 - batch_start
+                        print(f"\n[디버깅 - 첫 예측 샘플]")
+                        print(f"  입력 윈도우 로컬 인덱스: {inp0} ~ {inp0 + input_len - 1}")
+                        print(f"  예측 타임스탬프 로컬 인덱스: {pred0}")
+                        print(f"  예측 시점: {df.loc[pred0, 'date_time']}")
+                        print(f"  배치 내 오프셋: {offset0}")
+                        if s_idx is not None:
+                            print(f"  station_idx: {s_idx[offset0].item()}")
+                        print(f"  모델 출력 (표준화됨): {yhat_np[offset0][:3]}")
+                        print(f"  역변환 후 (kW): {_inv_standard_log1p(yhat_np[offset0].reshape(-1))[:3]}")
+
+                batch_offset += batch_size
+                
+                if batch_offset > max([g for g, _, _ in prediction_info]):
+                    break
+
+        if not pred_map:
+            print(f"[경고] Station {sid}: 예측 결과 생성 실패")
+            continue
+
+        print(f"생성된 예측 포인트 수: {len(pred_map)}")
+
+        # ========== 시각화 ==========
+        pred_series = pd.Series(pred_map).sort_index()
+        
+        plt.figure(figsize=(14, 6))
+        
+        plt.plot(input_part["date_time"], input_part["power"], 
+                color='#1f77b4', label="Input (Actual)", linewidth=2.5, marker='o', markersize=5)
+        
+        plt.plot(output_part["date_time"], output_part["power"], 
+                color='#ff7f0e', label="Output (Actual)", linewidth=2.5, marker='s', markersize=4)
+        
+        plt.plot(pred_series.index, pred_series.values, 
+                color='#2ca02c', linestyle="--", label="Predicted", 
+                linewidth=2.5, marker="^", markersize=5, alpha=0.85)
+    
+        
+        title = f"PVPlant Power Forecast | In_window={input_len}, Out_window={output_len}"
+        if sid is not None:
+            title += f" | Station {sid}"
+        
+        plt.title(title, fontsize=14, fontweight='bold')
+        plt.xlabel("Time", fontsize=12)
+        plt.ylabel("Power (kW)", fontsize=12)
+        plt.xticks(rotation=45)
+        plt.grid(True, alpha=0.3, linestyle='--')
+        plt.legend(loc="best", fontsize=11)
+        plt.xlim([input_start, view_end])
+        plt.tight_layout()
+
+        if save_path is not None:
+            if len(station_list) == 1:
+                out_path = save_path
+            else:
+                base, ext = (save_path.rsplit(".", 1) + ["png"])[:2]
+                out_path = f"{base}_{sid}.{ext}"
+            plt.savefig(out_path, dpi=300, bbox_inches="tight")
+            print(f"[저장] {out_path}")
+        
+        plt.show()
+
+"""
+Owaolabi 예측 결과 시각화 함수
+"""
 def plot_Owaolabi_predictions_chained(
     cnn, lstm, loader, df, device,
     input_len=10, output_len=1, start_idx=0,
