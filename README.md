@@ -1,3 +1,7 @@
+# 태양광 발전소 발전량 예측 (LSTM, Transformer(encoder-only))
+
+[Notion |  https://www.notion.so/ryudoyeon/PV_Plant-Power-26561f7ccc3f802d875af29b7a099e65?source=copy_link]
+
 <aside>
 📌
 
