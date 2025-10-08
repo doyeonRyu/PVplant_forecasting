@@ -56,31 +56,34 @@ def evaluate(loader, model, criterion, device):
 
             # station별 손실: 배치 내 station 고유값별로 슬라이스하여 동일 방식으로 합산
             # s_idx는 (N,) 또는 (N,1)일 수 있으므로 1D 텐서로 맞춘다
-            if s_idx.dim() > 1:
-                s_idx_flat = s_idx.view(-1) # (N,)로 평탄화
-            else:
-                s_idx_flat = s_idx # 이미 (N,)
+            if s_idx is not None: 
+                if s_idx.dim() > 1:
+                    s_idx_flat = s_idx.view(-1) # (N,)로 평탄화
+                else:
+                    s_idx_flat = s_idx # 이미 (N,)
 
-            unique_stations = s_idx_flat.unique() # 배치에 등장한 station ID들
-            for st in unique_stations: # 각 station별로 손실 계산
-                mask = (s_idx_flat == st) # 해당 station의 마스크 (N,)
-                idx = mask.nonzero(as_tuple=True)[0] # 해당 인덱스들
-                # 해당 station에 속한 샘플만 슬라이스
-                yhat_sub = yhat.index_select(0, idx)
-                yb_sub = yb.index_select(0, idx)
-                sub_cnt = yhat_sub.size(0) # 해당 station 샘플 수
-                # 동일하게 평균 손실을 구하고, * sub_cnt로 가중합을 만든다
-                st_loss_mean = criterion(yhat_sub, yb_sub).item()
-                st_sum[int(st.item())] += st_loss_mean * sub_cnt # station 손실 합
-                st_cnt[int(st.item())] += sub_cnt  # station 샘플 수
+                unique_stations = s_idx_flat.unique() # 배치에 등장한 station ID들
+                for st in unique_stations: # 각 station별로 손실 계산
+                    mask = (s_idx_flat == st) # 해당 station의 마스크 (N,)
+                    idx = mask.nonzero(as_tuple=True)[0] # 해당 인덱스들
+                    # 해당 station에 속한 샘플만 슬라이스
+                    yhat_sub = yhat.index_select(0, idx)
+                    yb_sub = yb.index_select(0, idx)
+                    sub_cnt = yhat_sub.size(0) # 해당 station 샘플 수
+                    # 동일하게 평균 손실을 구하고, * sub_cnt로 가중합을 만든다
+                    st_loss_mean = criterion(yhat_sub, yb_sub).item()
+                    st_sum[int(st.item())] += st_loss_mean * sub_cnt # station 손실 합
+                    st_cnt[int(st.item())] += sub_cnt  # station 샘플 수
 
     # 전체 평균 손실 계산(샘플 수로 나눔)
-    overall_loss = total_sum / max(total_cnt, 1)
+    overall_loss = total_sum / max(total_cnt, 1) if total_cnt > 0 else float('nan')
 
     # station별 평균 손실 계산
-    station_avg = {}
-    for k in st_sum.keys():
-        station_avg[k] = st_sum[k] / max(st_cnt[k], 1)
+    if len(st_cnt) > 0:
+        station_avg = {st: st_sum[st] / st_cnt[st] for st in st_cnt}
+    else:
+        # s_idx가 None이거나 station 정보가 없을 경우
+        station_avg = {}
 
     return overall_loss, station_avg
 
@@ -142,7 +145,7 @@ def evaluate_cnn_lstm(loader, cnn, lstm, criterion, device):
 - MAE, RMSE, MAPE 계산
 
 """
-def metrics(best_path, model, data_loader, y_scaler, device):
+def metrics(best_path, model, data_loader, std_scaler, mm_scaler, logged=True, device=torch.device('cuda')):
     """
     Function: metrics
         - 최고 성능 모델 평가 지표 계산 함수
@@ -186,13 +189,35 @@ def metrics(best_path, model, data_loader, y_scaler, device):
     all_y = np.concatenate(all_y)
     all_yhat = np.concatenate(all_yhat)
 
+    # 2D로 정렬 (스케일러: (N,1) 형태 기대)
+    if all_y.ndim == 1:
+        all_y = all_y.reshape(-1, 1)
+    if all_yhat.ndim == 1:
+        all_yhat = all_yhat.reshape(-1, 1)
+
     # 역변환: 스케일 -> 로그
-    all_y  = y_scaler.inverse_transform(all_y).reshape(-1)
-    all_yhat = y_scaler.inverse_transform(all_yhat).reshape(-1)
+    if std_scaler is not None:
+        all_y  = std_scaler.inverse_transform(all_y).reshape(-1)
+        all_yhat = std_scaler.inverse_transform(all_yhat).reshape(-1)
+
+    # 정규화 표준화 같이 썼을 때 
+    if mm_scaler is not None:
+            # 2D로 정렬 (스케일러: (N,1) 형태 기대)
+        if all_y.ndim == 1:
+            all_y = all_y.reshape(-1, 1)
+        if all_yhat.ndim == 1:
+            all_yhat = all_yhat.reshape(-1, 1)
+
+        all_y  = mm_scaler.inverse_transform(all_y)
+        all_yhat = mm_scaler.inverse_transform(all_yhat)
 
     # 로그 되돌리기
-    all_y = np.expm1(all_y)
-    all_yhat = np.expm1(all_yhat)
+    if logged: # 타겟 로그 변환 시: log1p -> expm1로 복원
+        all_y = np.expm1(all_y)
+        all_yhat = np.expm1(all_yhat)
+
+    all_y = np.asarray(all_y).reshape(-1)
+    all_yhat = np.asarray(all_yhat).reshape(-1)
 
     # 지표 계산
     mae = skm.mean_absolute_error(all_y, all_yhat)

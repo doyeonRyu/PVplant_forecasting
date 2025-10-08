@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from utils.setup import _to_device
 
-def _to_device(batch, device):
-    """배치를 지정된 device로 이동"""
-    if isinstance(batch, (list, tuple)):
-        return [_to_device(item, device) for item in batch]
-    elif isinstance(batch, torch.Tensor):
-        return batch.to(device)
-    else:
-        return batch
+# def _to_device(batch, device):
+#     """배치를 지정된 device로 이동"""
+#     if isinstance(batch, (list, tuple)):
+#         return [_to_device(item, device) for item in batch]
+#     elif isinstance(batch, torch.Tensor):
+#         return batch.to(device)
+#     else:
+#         return batch
 
 """
 각 station별 예측 결과 시각화 함수
@@ -550,7 +550,8 @@ def plot_Owaolabi_predictions_chained(
     output_part = df.loc[out_mask, ["date_time", "power"]].copy()
 
     # 예측을 view_days 단위 만큼 수행
-    cnn.eval()
+    if cnn is not None:
+        cnn.eval()
     lstm.eval()
 
     # 필요한 샘플 인덱스들을 수집
@@ -588,16 +589,25 @@ def plot_Owaolabi_predictions_chained(
             if to_pick:
                 xb, s_idx, meta, yb = _to_device(batch, device)
                 
-                # CNN 입력 형태로 변환
-                if xb.dim() == 3:
-                    xb = xb.permute(0, 2, 1)
-                elif xb.dim() == 2:
-                    xb = xb.unsqueeze(1)
+                if cnn is not None:
+                    # CNN이 원하는 형태로 변환
+                    if xb.dim() == 3: 
+                        xb = xb.permute(0, 2, 1) 
+                    elif xb.dim() == 2: 
+                        xb = xb.unsqueeze(1)
+                    cnn_out = cnn(xb) # [B, F, L] 
+                    yhat = lstm(cnn_out) # [B, output_len] or [B,]
+                else:
+                    # LSTM 단독: [B, L, F] 보장
+                    if xb.dim() == 3 and xb.shape[1] < xb.shape[2]:  # [B, F, L]이면
+                        xb = xb.permute(0, 2, 1)                     # -> [B, L, F]
+                    elif xb.dim() == 2:                              # [B, L]이면
+                        xb = xb.unsqueeze(-1)                        # -> [B, L, 1]
 
-                # 배치 전체 forward
-                cnn_out = cnn(xb) # [B, F, L]
-                yhat = lstm(cnn_out) # [B, output_len] or [B,]
-                yhat_np = yhat.detach().cpu().numpy() # (B, H)
+                    yhat = lstm(xb)  # [B, output_len] or [B,]
+
+                # 넘파이로 변환
+                yhat_np = yhat.detach().cpu().numpy()  # (B, H) 또는 (B,)
 
                 # 필요한 오프셋만 꺼내 시간축에 매핑
                 for idx in to_pick:
